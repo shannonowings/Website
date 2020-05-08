@@ -1,0 +1,151 @@
+Institution,AR%,Location,Price$,SAT_Range
+Massachusetts Institute of Technology,7,"Cambridge, MA ","22,230",1490-1570
+Stanford University,5,"Stanford, CA ","16,562",1390-1540
+Harvard University,5,"Cambridge, MA ","17,030",1460-1590
+Yale University,7,"New Haven, CT ","18,053",1460-1580
+Princeton University,6,"Princeton, NJ ","16,302",1430-1570
+University of Pennsylvania,9,"Philadelphia, PA ","24,539",1420-1560
+Columbia University,7,"New York, NY ","22,824",1410-1570
+Duke University,10,"Durham, NC ","22,011",1380-1540
+Brown University,8,"Providence, RI ","25,651",1400-1570
+California Institute of Technology,8,"Pasadena, CA ","24,466",1530-1590
+Washington University in St. Louis,16,"Saint Louis, MO ","27,777",1470-1570
+Rice University,16,"Houston, TX ","24,131",1490-1580
+University of Notre Dame,19,"Notre Dame, IN ","27,453",1370-1520
+Northwestern University,9,"Evanston, IL ","26,099",1420-1560
+University of Chicago,8,"Chicago, IL ","34,834",1480-1580
+Pomona College,8,"Claremont, CA ","18,427",1370-1530
+Bowdoin College,14,"Brunswick, ME ","24,447",1360-1510
+Vanderbilt University,11,"Nashville, TN ","23,295",1440-1570
+Dartmouth College,10,"Hanover, NH ","22,303",1430-1560
+University of Southern California,17,"Los Angeles, CA ","32,892",1300-1500
+Cornell University,13,"Ithaca, NY ","31,449",1390-1550
+Georgetown University,16,"Washington, DC ","27,420",1350-1520
+University of Michigan - Ann Arbor,27,"Ann Arbor, MI ","16,408",1330-1500
+Amherst College,13,"Amherst, MA ","19,519",1400-1560
+Tufts University,15,"Medford, MA ","29,449",1410-1540
+Johns Hopkins University,13,"Baltimore, MD ","29,066",1450-1570
+Emory University,22,"Atlanta, GA ","26,867",1350-1520
+University of Virginia,27,"Charlottesville, VA ","16,594",1310-1500
+University of California - Los Angeles,16,"Los Angeles, CA ","14,760",1220-1450
+Swarthmore College,11,"Swarthmore, PA ","20,444",1380-1540
+United States Military Academy at West Point,10,"West Point, NY ","20,555",1180-1400
+Middlebury College,17,"Middlebury, VT ","22,841",1320-1510
+Carnegie Mellon University,22,"Pittsburgh, PA ","29,817",1430-1560
+Barnard College,15,"New York, NY ","23,736",1310-1500
+Carleton College,21,"Northfield, MN ","28,148",1360-1530
+Washington & Lee University,22,"Lexington, VA ","25,029",1350-1490
+University of California - Berkeley,17,"Berkeley, CA ","18,178",1260-1480
+Georgia Institute of Technology,23,"Atlanta, GA ","15,873",1090-1520
+Wellesley College,28,"Wellesley, MA ","20,189",1360-1530
+Haverford College,20,"Haverford, PA ","23,582",1390-1530
+Claremont McKenna College,10,"Claremont, CA ","28,712",1340-1510
+Williams College,15,"Williamstown, MA ","20,380",1400-1570
+Bates College,22,"Lewiston, ME ","23,312",1385-1460
+University of North Carolina at Chapel Hill,24,"Chapel Hill, NC ","11,100",1270-1460
+Wake Forest University,28,"Winston-Salem, NC ","23,986",1270-1410
+Northeastern University,27,"Boston, MA ","30,784",1370-1520
+Virginia Tech,70,"Blacksburg, VA ","18,700",1180-1360
+University of Texas - Austin,36,"Austin, TX ","14,356",1220-1460
+Lehigh University,25,"Bethlehem, PA ","26,933",1270-1430
+Colby College,16,"Waterville, ME ","20,361",1340-1500
+Boston College,32,"Chestnut Hill, MA ","27,299",1320-1490
+College of William & Mary,36,"Williamsburg, VA ","17,415",1300-1480
+Hamilton College,24,"Clinton, NY ","22,139",1360-1510
+Davidson College,20,"Davidson, NC ","28,339",1310-1470
+Colgate University,28,"Hamilton, NY ","22,182",1310-1500
+Smith College,32,"Northampton, MA ","26,734",1240-1470
+New York University,28,"New York, NY ","36,256",1290-1490
+University of Richmond,33,"University of Richmond, VA ","24,575",1270-1460
+Wesleyan University,16,"Middletown, CT ","24,251",1300-1480
+University of Wisconsin,54,"Madison, WI ","15,910",1280-1450
+Harvey Mudd College,15,"Claremont, CA ","38,135",1470-1570
+University of Florida,42,"Gainesville, FL ","15,283",1240-1400
+University of Rochester,34,"Rochester, NY ","37,064",1300-1490
+University of Illinois at Urbana-Champaign,62,"Champaign, IL ","16,638",1340-1500
+Bucknell University,31,"Lewisburg, PA ","37,817",1250-1420
+Boston University,25,"Boston, MA ","33,728",1300-1480
+University of Georgia,54,"Athens, GA ","15,934",1200-1370
+Grinnell College,29,"Grinnell, IA ","29,492",1310-1510
+Brigham Young University,52,"Provo, UT ","12,979",1210-1410
+Tulane University,21,"New Orleans, LA ","33,886",1330-1490
+Colorado School of Mines,56,"Golden, CO ","25,472",1310-1450
+Vassar College,24,"Poughkeepsie, NY ","23,763",1330-1500
+Kenyon College,34,"Gambier, OH ","31,704",1260-1460
+University of Washington,46,"Seattle, WA ","9,443",1190-1420
+Lafayette College,31,"Easton, PA ","26,148",1260-1440
+Case Western Reserve University,33,"Cleveland, OH ","34,973",1340-1520
+The Cooper Union for the Advancement of Science and Art,13,"New York, NY ","28,494",1310-1530
+Southern Methodist University,49,"Dallas, TX ","36,458",1270-1440
+Rensselaer Polytechnic Institute,44,"Troy, NY ","37,648",1320-1500
+Purdue University,57,"West Lafayette, IN ","12,117",1150-1380
+University of Miami,36,"Coral Gables, FL ","42,204",1230-1420
+Worcester Polytechnic Institute,48,"Worcester, MA ","43,027",1310-1480
+Bryn Mawr College,38,"Bryn Mawr, PA ","28,450",1310-1500
+Colorado College,15,"Colorado Springs, CO ","29,528",1220-1430
+Macalester College,41,"Saint Paul, MN ","30,672",1300-1480
+University of California - Santa Barbara,33,"Santa Barbara, CA ","16,154",1190-1400
+College of the Holy Cross,40,"Worcester, MA ","27,005",1230-1370
+University of Minnesota - Twin Cities,50,"Minneapolis, MN ","16,808",1270-1480
+Penn State,50,"University Park, PA ","25,346",1160-1340
+Texas A&M University,71,"College Station, TX ","19,554",1140-1360
+The Ohio State University,48,"Columbus, OH ","18,042",1260-1450
+Stevens Institute of Technology,44,"Hoboken, NJ ","38,469",1320-1470
+Pitzer College,16,"Claremont, CA ","26,935",1300-1450
+Mount Holyoke College,51,"South Hadley, MA ","29,784",1270-1460
+North Carolina State University,51,"Raleigh, NC ","13,442",1230-1390
+Santa Clara University,54,"Santa Clara, CA ","38,900",1270-1440
+Reed College,36,"Portland, OR ","32,097",1310-1500
+Villanova University,36,"Villanova, PA ","35,491",1250-1440
+Rose-Hulman Institute of Technology,61,"Terre Haute, IN ","41,536",1260-1450
+Whitman College,52,"Walla Walla, WA ","38,144",1140-1380
+Scripps College,33,"Claremont, CA ","36,831",1290-1460
+Clemson University,47,"Clemson, SC ","18,757",1220-1390
+Michigan State University,72,"East Lansing, MI ","16,684",1100-1320
+University of Tulsa,39,"Tulsa, OK ","25,086",1150-1440
+University of Maryland - College Park,45,"College Park, MD ","17,241",1280-1470
+Babson College,24,"Wellesley, MA ","29,847",1230-1410
+Wheaton College - Illinois,85,"Wheaton, IL ","30,021",1230-1410
+Trinity University - Texas,38,"San Antonio, TX ","28,540",1230-1410
+University of Pittsburgh,60,"Pittsburgh, PA ","22,848",1240-1420
+University of California - Davis,43,"Davis, CA ","16,446",1130-1360
+Yeshiva University,63,"New York, NY ","31,873",1160-1420
+Gettysburg College,46,"Gettysburg, PA ","34,705",1200-1370
+Brandeis University,34,"Waltham, MA ","32,714",1280-1470
+George Washington University,41,"Washington, DC ","37,638",1280-1440
+Skidmore College,25,"Saratoga Springs, NY ","25,254",1200-1400
+St. Olaf College,43,"Northfield, MN ","27,587",1150-1400
+Michigan Technological University,74,"Houghton, MI ","17,139",1160-1340
+University of California - Irvine,37,"Irvine, CA ","13,944",1170-1350
+Indiana University - Bloomington,76,"Bloomington, IN ","12,488",1140-1350
+Occidental College,42,"Los Angeles, CA ","33,738",1280-1440
+Florida State University,49,"Tallahassee, FL ","16,450",1190-1330
+University of California - San Diego,34,"La Jolla, CA ","14,616",1210-1410
+University of Iowa,86,"Iowa City, IA ","14,845",1140-1370
+Loyola Marymount University,52,"Los Angeles, CA ","42,459",1180-1360
+California Polytechnic State University - San Luis Obispo,35,"San Luis Obispo, CA ","19,002",1200-1380
+Union College - New York,37,"Schenectady, NY ","37,080",1220-1400
+University of Delaware,63,"Newark, DE ","16,286",1130-1330
+Iowa State University,89,"Ames, IA ","13,949",1160-1410
+Lawrence University,61,"Appleton, WI ","28,180",1220-1460
+American University,29,"Washington, DC ","32,732",1180-1350
+Texas Christian University,41,"Fort Worth, TX ","35,363",1130-1330
+Syracuse University,47,"Syracuse, NY ","35,306",1160-1350
+Rutgers University - New Brunswick,58,"Piscataway, NJ ","16,016",1190-1400
+Franklin & Marshall College,34,"Lancaster, PA ","24,472",1200-1420
+University of Massachusetts - Amherst,58,"Amherst, MA ","21,281",1180-1360
+Wabash College,63,"Crawfordsville, IN ","24,603",1070-1280
+Denison University,37,"Granville, OH ","32,290",1200-1380
+Gustavus Adolphus College,68,"Saint Peter, MN ","29,894",1080-1340
+Bentley University,44,"Waltham, MA ","36,613",1210-1380
+Auburn University,84,"Auburn, AL ","22,613",1130-1310
+Oberlin College,34,"Oberlin, OH ","39,794",1280-1450
+James Madison University,75,"Harrisonburg, VA ","16,154",1100-1260
+Pepperdine University,40,"Malibu, CA ","36,372",1200-1390
+Sewanee - The University of the South,47,"Sewanee, TN ","34,001",1140-1320
+Saint Louis University,64,"St. Louis, MO ","31,718",1170-1390
+University of Portland,70,"Portland, OR ","33,327",1140-1320
+University of Oklahoma,74,"Norman, OK ","20,003",1150-1380
+University of Denver,58,"Denver, CO ","35,163",1160-1350
+University of San Diego,50,"San Diego, CA ","38,592",1180-1350
+Oklahoma State University,74,"Stillwater, OK ","14,513",1070-1260

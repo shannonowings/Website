@@ -1,0 +1,213 @@
+---
+title: "Project 1"
+author: "Shannon Owings"
+date: "3/4/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, fig.align = "center", warning = F, message = F,
+tidy=TRUE, tidy.opts=list(width.cutoff=60), R.options=list(max.print=100))
+```
+
+
+#0. Introduction 
+The datasets that I have chosen for this project are entitled "SchoolRankings.csv" and "salaries-by-college-type.csv". The "SchoolRankings"" dataset describes America's top 150 universities in 2019, pulled from Niche.com. This dataset gives variables such as the name of the school, acceptance rate, location, average cost after financial aid, and the 25th to 75th percentile score on SAT for accepted students. The other dataset, "salaries-by-college-type", describes the salaries of five different types of schools: Engineering, State, Liberal Arts, Party, and Ivy League. This data was obtained from the Wall Street Journal. The variables for this dataset include school name, school type, starting median salary, mid-career median salary, mid-career 10th percentile salary, mid-career 25th percentile salary, mid-career 75th percentile salary, and mid-career 90th percentile salary. I acquired these datasets through the Kaggle website by searching the word "college". The subject of college and these two datasets in particular are interesting to me because I am a college student and it is amusing to compare my college to 50 of America's top institutions. It is also interesting to compare the types of schools in terms of acceptance rate, cost, salaries, and more. I liked these datasets because I am very interested in this information currently and can personally relate to the data as a college student. I expect to see potential associations between acceptance rate and price as well as starting median salary and mid-career median salary. I believe that as acceptance rate decreases, cost of attendance will increase. Likewise, I think that as starting median salary increases, mid-career median salary will increase. It will be interesting to see if there are associations between these variables. 
+
+
+#1. Tidying: Rearranging Wide/Long
+
+```{r}
+library(tidyverse)
+library(readr)
+SchoolRankings <- read_csv("/stor/home/smo884/Project 1/SchoolRankings.csv")
+salaries_by_college_type <- read_csv("/stor/home/smo884/Project 1/salaries-by-college-type.csv")
+glimpse(SchoolRankings)
+glimpse(salaries_by_college_type)
+
+untidysalaries <- salaries_by_college_type %>% pivot_wider(names_from="School_Type", values_from="Institution") 
+glimpse(untidysalaries)
+
+tidysalaries <- untidysalaries %>% pivot_longer(7:11, names_to="School_Type", values_to="Institution") %>% na.omit
+glimpse(tidysalaries)
+```
+To begin, I imported and glimpsed at my data. I noticed that besides a handful of NAs, my data was pretty tidy. Because of this, I decided to untidy my salaries dataset by using pivot_wider and naming this new dataset "untidysalaries". This changed my data from long to wide by removing rows and adding columns. A separate column for each school type (Engineering, Party, Liberal Arts, Ivy League, and State) was made and several new NAs were introduced. I then used pivot_longer to undo pivot_wider. This action removed the newly made columns and created the original rows again, with the five different school types falling under the column of "School Type" rather than each having a column of their own. This dataset was named "tidysalaries". These actions were completed in order to demonstrate my tidying skills.
+
+
+#2. Joining/Merging 
+
+```{r}
+library(dplyr)
+fulldata <- inner_join(salaries_by_college_type, SchoolRankings)
+head(fulldata)
+```
+I performed an inner_join because I only wanted to look at the colleges that were in both datasets. I did this in order to keep my dataset tidy and leave all unmatched rows out. By performing this join, 100 observations were dropped from the "SchoolRankings" dataset and 219 observations were dropped from the "salaries_by_college_type" dataset. The datasets were joined by Institution, so any institution that was in one dataset but not the other was dropped. This left 50 institutions that were common to both datasets and a total of 12 columns. Because each dataset was reduced significantly, there could be potential problems with the remaining 50 institutions. It is no longer as representative of the original data. There are 30 Liberal Arts schools, 8 Ivy Leagues, 8 State schools, and 4 Engineering schools. This could pose potential problems with summary statistics or other analyses because some schools are so underrepresented.
+
+
+#3. Wrangling 
+
+```{r}
+fulldata %>% filter(`Mid-Career_10_Percentile_Salary` != "N/A") %>% filter(`Mid-Career_90_Percentile_Salary` != "N/A") 
+fulldata %>% summarize(mean(Starting_Median_Salary)) %>% glimpse()
+fulldata %>% summarize(mean(`Mid-Career_Median_Salary`)) %>% glimpse()
+fulldata %>% summarize(mean(`AR%`)) %>% glimpse()
+fulldata %>% summarize(mean(`Price$`)) %>% glimpse()
+fulldata %>% summarize(median(`AR%`)) %>% glimpse()
+highAR <- fulldata %>% filter(`AR%` > 33.06) %>% glimpse()
+lowAR <- fulldata %>% filter(`AR%` < 33.06) %>% glimpse()
+fulldata %>% summarize(max(`Mid-Career_Median_Salary`)) %>% glimpse()
+fulldata %>% summarize(max(`AR%`)) %>% glimpse()
+fulldata %>% filter(`Mid-Career_Median_Salary` == 134000) %>% glimpse()
+fulldata %>% filter(`AR%` == 89) %>% glimpse
+fulldata %>% summarize_all(function(x)sum(is.na(x)))
+fulldata %>% group_by(Location) %>% group_by(School_Type) %>% summarize(sdprice=sd(`Price$`)) %>% glimpse()
+
+byschooltype <- fulldata %>% dplyr::select(-c("Mid-Career_10_Percentile_Salary", "Mid-Career_25_Percentile_Salary", "Mid-Career_75_Percentile_Salary", "Mid-Career_90_Percentile_Salary")) %>% group_by(`School_Type`) %>% mutate(Salary_Rank = dense_rank(desc(`Mid-Career_Median_Salary`))) %>% arrange(School_Type)
+newAR <- byschooltype %>% mutate(AR_cat = case_when(`AR%`>33 ~ "high", `AR%`==33 ~ "high", `AR%`<33 ~ "low"))
+newAR %>% group_by(School_Type) %>% group_by(AR_cat) %>% glimpse()
+byschooltype %>% arrange(Salary_Rank) %>% glimpse()
+byschooltype %>% summarize_all(n_distinct) %>% glimpse() 
+summary(byschooltype) 
+byschooltype %>% summarize_if(is.numeric, sd, na.rm=T) %>% glimpse() 
+
+summarystats <- byschooltype %>% summarize(mean_starting_salary = mean(Starting_Median_Salary), sd_starting_salary = sd(Starting_Median_Salary), cor_salaries = cor(Starting_Median_Salary,`Mid-Career_Median_Salary`), min_starting_salary = min(Starting_Median_Salary), max_starting_salary = max(Starting_Median_Salary)) 
+summarystats2 <- byschooltype %>% summarize(meanAR = mean(`AR%`), sdAR = sd(`AR%`), minAR = min(`AR%`), maxAR = max(`AR%`), cor_ARPrice = cor(`AR%`,`Price$`))
+summarystats3 <- byschooltype %>% summarize(meanprice = mean(`Price$`), sdprice = sd(`Price$`), minprice = min(`Price$`), maxprice = max(`Price$`))
+newsummary <- full_join(summarystats, summarystats2)
+totalnewsummary <- full_join(newsummary, summarystats3) %>% glimpse()
+
+install.packages("kableExtra")
+library(knitr)
+library(kableExtra)
+kable(totalnewsummary[1:4, 1:15], caption = "Summary Stats for School Types") %>%
+  kable_styling("striped", full_width = F) %>%
+  pack_rows("Engineering", 1, 1) %>%
+  pack_rows("Liberal Arts", 3, 3) %>% pack_rows("Ivy League", 2, 2) %>% pack_rows("State", 4, 4) 
+
+df<-fulldata%>%na.omit%>%select_if(is.numeric) 
+cor(df)
+
+```
+I generated several summary statistics. First, I filtered out the NAs from the Mid-Career 10th Percentile Salary column as well as from the Mid-Career 90th Percentile Salary column. I did this because these were the only two columns with any NAs and by removing them, the dataset was cut in half. I then began finding the means of several numeric variables of the full dataset. I found the mean starting median salary of all institutions along with the mean mid-career median salary, acceptance rate, and cost of attendance. It was interesting to see that the mean starting median salary of 50 of America's top institutions was only 50,358 dollars. The mean mid-career median salary of these institutions, however, nearly doubled to 97,900 dollars. I also discovered that the mean acceptance rate of these schools was 33.06% and the mean price was 24,868.82 dollars. These numbers make sense because these top institutions have lower acceptance rates than other schools in the country. Next, I found the median acceptance rate, which was lower than the mean acceptance rate by 4.56%, and created datasets based on this mean acceptance rate. Any institution above the mean acceptance rate was grouped in a dataset called, "highAR". Likewise, any institution below the mean acceptance rate was grouped in a dataset called, "lowAR." There were 20 schools in the highAR dataset and 30 schools in the lowAR dataset. After finding the maximum mid-career median salary and acceptance rate, which were 134,000 dollars and 89% and belonged to Dartmouth College and Iowa State University, respectively, I calculated the total number of NAs in each column.
+
+After computing summary statistics for the full dataset, I decided to use the group_by function. First, I grouped by the two categorial variables of "School Type" and "Location". I then created a new dataset where all of the salary columns were removed except for "Starting Median Salary" and "Mid-Career Median Salary", which I believed to be the two most useful salary columns. I then grouped this dataset by "School-Type" and created a column via the mutate function called "Salary Rank", which ranked each institution within its respective school type in terms of Mid-Career Median Salary. Harvey Mudd College was the highest ranked Engineering school, Dartmouth College was the highest ranked Ivy League school, Bucknell University was the highest ranked Liberal Arts school, and Texas A&M University was the highest ranked State school. I then created several other summary statistics for this data grouped by "School Type" including mean, standard deviation, minimum, and maximum of starting median salary, acceptance rate, and price. I also found the correlation between starting median salary and mid-career median salary as well as acceptance rate and price. All of these statistics were joined together and displayed in a table. It was interesting to see that the mean starting salary was higher for the engineering and Ivy League groups and lower for the Liberal Arts and State groups compared to the overall mean. Conversely, the mean acceptance rates for the Ivy League and Liberal Arts schools were lower than the overall mean whereas the Enginerring and State school mean acceptance rates were higher. I also found it fascinating that a Liberal Arts school had the maximum cost of attendance out of all 50 schools. As I predicted in the beginning, there was a positive correlation between mean starting median salary and mean mid-career median salary; however, there did not seem to be a correlation consistent across all four groups between acceptance rate and cost of attendance. Finally, I created a correlation matrix with my numeric variables. 
+
+
+#4. Visualizing 
+
+```{r}
+library(ggplot2)
+
+tidycor<-cor(df)%>%as.data.frame%>%
+rownames_to_column%>% pivot_longer(-1,names_to="name",values_to="correlation")
+tidycor%>%ggplot(aes(rowname,name,fill=correlation))+
+geom_tile()+ scale_fill_gradient2(low="red",mid="white",high="blue")+ geom_text(aes(label=round(correlation,2)),color = "black", size = 4)+ coord_fixed() + xlab("")+ylab("") + theme(axis.text.x = element_text(angle = 35, hjust = 1))
+
+ggplot(fulldata, aes(Starting_Median_Salary, `Mid-Career_Median_Salary`)) + geom_point(aes(y=`Mid-Career_Median_Salary`, color=School_Type), stat="summary", fun.y="mean") + ggtitle("Starting Median Salary and Mid-Career Median Salary by School Type") + scale_y_continuous(name="Mid-Career Median Salary (USD)") + xlab("Starting Median Salary (USD)") + theme_light(base_size = 10) + scale_color_brewer(palette="Dark2")
+
+newAR <- byschooltype %>% mutate(AR_cat = case_when(`AR%`>33 ~ "high", `AR%`==33 ~ "high", `AR%`<33 ~ "low"))
+
+ggplot(newAR, aes(AR_cat, `Price$`)) + geom_bar(aes(y=`Price$`, fill=School_Type), stat="summary", fun.y="mean") + ggtitle("Acceptance Rate and Cost of Attendance by School Type") + xlab("Acceptance Rate") + ylab("Cost of Attendance (USD)") + scale_fill_brewer() + theme_light(base_size = 12) + scale_y_continuous(breaks=seq(0,80000,10000))
+
+```
+
+In the correlation matrix, a correlation is given between every numeric variable. The strongest correlation is 0.96 between mid-career 90th percentile salary and mid-career 75th percentile salary. The weakest correlation is 0.13 between cost of attendance and mid-career 75th percentile salary. In the second plot, the correlation between starting median salary and mid-career median salary by school type is explored. As starting median salary increases, so does mid-career median salary, suggesting that there is a strong positive correlation between these two variables. The points are colored by school type and it is interesting to note that Ivy Leagues and Engineering schools have the highest salaries and Liberal Arts schools and State schools have lower salaries. This indicates that schools that have higher starting median salaries are also likely to have higher mid-career median salaries, although a few Liberal Arts schools surpassed Ivy League and Engineering schools in mid-career median salaries despite having a lower starting median salary. 
+
+In the second plot, the relationship between accceptance rate and cost of attendance was explored based on school type. To begin, I mutated acceptance rate from a numeric variable to a categorical variable by recoding all acceptance rates above the mean to "high", indicating that these schools had a high acceptance rate, and recoded all acceptance rates below or equal to the mean to "low", indicating that these schools had low acceptance rates. I also changed the number of tick marks on the y-axis to include more cost of attendance prices. After completing these actions, I noticed a few relationships in this plot. To begin with, no State schools were classified as having a low acceptance rate and no Ivy Leagues were classified as having a high acceptance rate, but the other two school types fell into both categories. It is also interesting that State schools appear to have the lowest cost of attendance while Engineering and Liberal Arts schools seem to have similar cost of attendance prices. Ivy Leagues appear to cost less than Engineering and Liberal Arts schools with low acceptance rates, which was surprising. 
+
+#Dimensionality Reduction
+
+```{r}
+library("tidyverse")
+install.packages("GGally")
+library("GGally")
+library(cluster)
+library(dplyr)
+library(ggplot2)
+
+#K-means Clustering
+
+fulldata2 <- fulldata %>% dplyr::select(-Institution, -School_Type, -Location, -`Mid-Career_10_Percentile_Salary`, -`Mid-Career_90_Percentile_Salary`)
+fulldata2
+
+wss<-vector()
+for(i in 1:10){
+  temp<- fulldata2 %>% select(`AR%`,`Price$`) %>% kmeans(i) 
+  wss[i]<-temp$tot.withinss
+}
+ggplot()+geom_point(aes(x=1:10,y=wss))+geom_path(aes(x=1:10,y=wss))+ xlab("clusters")+scale_x_continuous(breaks=1:10)
+
+cluster1 <- fulldata2 %>% dplyr::select(`AR%`, `Price$`)
+cluster2 <- fulldata2 %>% dplyr::select(Starting_Median_Salary, `Mid-Career_Median_Salary`)
+cluster3 <- fulldata2 %>% dplyr::select(`Price$`, `Mid-Career_Median_Salary`)
+
+kmeans1 <- cluster1 %>% scale %>% kmeans(2) 
+kmeans1
+kmeans1$size
+kmeans1$center
+kmeans1$cluster
+kmeansclust <- fulldata2 %>% mutate(cluster=as.factor(kmeans1$cluster))
+kmeansclust %>% ggplot(aes(`AR%`, `Price$`, color=cluster)) + geom_point()
+
+wss2<-vector()
+for(i in 1:10){
+  temp<- fulldata2 %>% select(Starting_Median_Salary, `Mid-Career_Median_Salary`) %>% kmeans(i) 
+  wss[i]<-temp$tot.withinss
+}
+ggplot()+geom_point(aes(x=1:10,y=wss))+geom_path(aes(x=1:10,y=wss))+ xlab("clusters")+scale_x_continuous(breaks=1:10)
+kmeans2 <- cluster2 %>% scale %>% kmeans(2) 
+kmeans2
+kmeans2$size
+kmeans2$center
+kmeans2$cluster
+kmeansclust2 <- fulldata2 %>% mutate(cluster=as.factor(kmeans1$cluster))
+kmeansclust2 %>% ggplot(aes(Starting_Median_Salary, `Mid-Career_Median_Salary`, color=cluster)) + geom_point()
+
+wss3<-vector()
+for(i in 1:10){
+  temp<- fulldata2 %>% select(`Price$`, `Mid-Career_Median_Salary`) %>% kmeans(i) 
+  wss[i]<-temp$tot.withinss
+}
+ggplot()+geom_point(aes(x=1:10,y=wss))+geom_path(aes(x=1:10,y=wss))+ xlab("clusters")+scale_x_continuous(breaks=1:10)
+kmeans3 <- cluster3 %>% scale %>% kmeans(2) 
+kmeans3
+kmeans3$size
+kmeans3$center
+kmeans3$cluster
+kmeansclust3 <- fulldata2 %>% mutate(cluster=as.factor(kmeans1$cluster))
+kmeansclust3 %>% ggplot(aes(`Price$`, `Mid-Career_Median_Salary`, color=cluster)) + geom_point()
+
+#PAM
+pam_dat<-fulldata2%>%select(`AR%`,`Price$`) 
+sil_width<-vector()
+for(i in 2:10){
+pam_fit <- pam(pam_dat, k = i)
+sil_width[i] <- pam_fit$silinfo$avg.width }
+ggplot()+geom_line(aes(x=1:10,y=sil_width))+scale_x_continuous(name="k",breaks=1:10)
+pam1 <- fulldata2 %>% pam(k=2) 
+pam1
+fulldata %>% mutate(cluster=as.factor(pam1$clustering)) %>% ggpairs(columns = 2:6, aes(color=cluster))
+plot(pam1, which=2)
+
+pamclust<-fulldata2 %>% mutate(cluster=as.factor(pam1$clustering))
+pamclust %>% ggplot(aes(`AR%`, `Price$`,color=cluster)) + geom_point()
+pamclust %>% group_by(cluster) %>% summarize_if(is.numeric,mean,na.rm=T)
+fulldata[pam1$id.med,]
+pam1$silinfo$avg.width
+```
+
+For this dataset, I performed k-means clustering on my numeric variables. To begin, I created new data where I removed all of the categorical variables and then I plotted WSS against the number of clusters to determine the best number of clusters to use. The WSS appeared to drop rapidly at 2, and so I decided that 2 clusters was best based on the plot. Next, I made my k-means clusters. The first k-means cluster included the variables of acceptance rate and cost of attendance. I scaled these variables and checked the k-means size, center, and cluster. After assigning each of the observations to the cluster whose center is closest and saving the cluster assignment as a column in the dataset, I graphed this first k-means and colored the data by final cluster assignment. I saw two distinct groups. The first cluster has an overall lower cost of attendance than the second cluster, however both clusters vary in acceptance rate. There does seem to be a general trend, however, that the lower the acceptance rate the higher cost of attendance. The size of the clusters was 30 and 20, with the lower cost of attendance cluster having 30 institutions and the higher cost of attendance cluster having 20 institutions. 
+
+Next, I performed a second k-means clustering on the numeric variables of starting median salary and mid-career median salary. I first determined how many clusters were appropriate. I decided to use 2 clusters, with one cluster having 19 institutions and the other cluster having 32 institutions. I then created a ggplot to visualize the clusters. These clusters appeared to be entertwined. These clusters did not map nicely at all to these variables and there is no distinction between the two clusters since they have similar starting median salaries and mid-career median salaries. There is a positive correlation between the two variables, however, in both clusters.
+
+Finally, I performed a third k-means clustering on the numeric variables of cost of attendance and mid-career median salary. I determined how many clusters were appropriate for these numeric variables and once again decided on two clusters. I graphed these clusters via ggplot. The sizes of these clusters are 24 and 26. These clusters are separated once again based on cost of attendance. One cluster has a consistently higher cost of attendance while the other cluster has a consistently lower cost of attendance, however the distinction between mid-career median salary is not as clear. It is clear that the first and third k-means mapped much more nicely and showed the clusters much more distinctly than the second k-means plot. For the PAM method, I chose the number of clusters based on average silhouette width and erred on the side of fewer clusters. I chose 2 clusters to maximize the silhouette width. Again, I assigned observations to the cluster whose center is closest. I saved the cluster assignment and plotted it. I ran PAM and visualized it. Based on this, the mid-career 10th percentile salary and mid-career 25th percentile salary have the strongest correlation. Every correlation is positive. In terms of the average silhouette width, which is 0.43, the structure is considered weak and could be artifical. Next, I found the means for each variable and the final medoids, who were most representative of the cluster. Overall, I processed the data, chose the number of clusters, ran both k-means and PAM cluster analysis, and visualized the clusters. The PAM cluster did not map very nicely to the variables or show the clusters very distinctly. Likewise, the cluster solution was not very good, so I liked the k-means clustering plots better and was able to interpret them better. 
+
+
+```{R, echo=F}
+## DO NOT DELETE THIS BLOCK!
+sessionInfo()
+Sys.time()
+Sys.info()
+```

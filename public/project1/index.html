@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Shannon Owings" />
+    <meta name="description" content="Describe your website">
+    <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico">
+    <title>Project 1</title>
+    <meta name="generator" content="Hugo 0.70.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="../blog/">BLOG</a></li>
+        
+        <li><a href="../projects/">PROJECTS</a></li>
+        
+        <li><a href="../resume/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="../project1/">Project 1</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          January 1, 0001
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+<script src="../rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<div id="introduction" class="section level1">
+<h1>0. Introduction</h1>
+<p>The datasets that I have chosen for this project are entitled “SchoolRankings.csv” and “salaries-by-college-type.csv”. The “SchoolRankings”&quot; dataset describes America’s top 150 universities in 2019, pulled from Niche.com. This dataset gives variables such as the name of the school, acceptance rate, location, average cost after financial aid, and the 25th to 75th percentile score on SAT for accepted students. The other dataset, “salaries-by-college-type”, describes the salaries of five different types of schools: Engineering, State, Liberal Arts, Party, and Ivy League. This data was obtained from the Wall Street Journal. The variables for this dataset include school name, school type, starting median salary, mid-career median salary, mid-career 10th percentile salary, mid-career 25th percentile salary, mid-career 75th percentile salary, and mid-career 90th percentile salary. I acquired these datasets through the Kaggle website by searching the word “college”. The subject of college and these two datasets in particular are interesting to me because I am a college student and it is amusing to compare my college to 50 of America’s top institutions. It is also interesting to compare the types of schools in terms of acceptance rate, cost, salaries, and more. I liked these datasets because I am very interested in this information currently and can personally relate to the data as a college student. I expect to see potential associations between acceptance rate and price as well as starting median salary and mid-career median salary. I believe that as acceptance rate decreases, cost of attendance will increase. Likewise, I think that as starting median salary increases, mid-career median salary will increase. It will be interesting to see if there are associations between these variables.</p>
+</div>
+<div id="tidying-rearranging-widelong" class="section level1">
+<h1>1. Tidying: Rearranging Wide/Long</h1>
+<pre class="r"><code>library(tidyverse)
+library(readr)
+SchoolRankings &lt;- read_csv(&quot;/stor/home/smo884/Project 1/SchoolRankings.csv&quot;)
+salaries_by_college_type &lt;- read_csv(&quot;/stor/home/smo884/Project 1/salaries-by-college-type.csv&quot;)
+glimpse(SchoolRankings)</code></pre>
+<pre><code>## Observations: 150
+## Variables: 5
+## $ Institution &lt;chr&gt; &quot;Massachusetts Institute of Technology&quot;, &quot;Stanford Univer…
+## $ `AR%`       &lt;dbl&gt; 7, 5, 5, 7, 6, 9, 7, 10, 8, 8, 16, 16, 19, 9, 8, 8, 14, 1…
+## $ Location    &lt;chr&gt; &quot;Cambridge, MA&quot;, &quot;Stanford, CA&quot;, &quot;Cambridge, MA&quot;, &quot;New Ha…
+## $ `Price$`    &lt;dbl&gt; 22230, 16562, 17030, 18053, 16302, 24539, 22824, 22011, 2…
+## $ SAT_Range   &lt;chr&gt; &quot;1490-1570&quot;, &quot;1390-1540&quot;, &quot;1460-1590&quot;, &quot;1460-1580&quot;, &quot;1430…</code></pre>
+<pre class="r"><code>glimpse(salaries_by_college_type)</code></pre>
+<pre><code>## Observations: 269
+## Variables: 8
+## $ Institution                       &lt;chr&gt; &quot;Massachusetts Institute of Technol…
+## $ School_Type                       &lt;chr&gt; &quot;Engineering&quot;, &quot;Engineering&quot;, &quot;Engi…
+## $ Starting_Median_Salary            &lt;dbl&gt; 72200, 75500, 71800, 62400, 62200, …
+## $ `Mid-Career_Median_Salary`        &lt;dbl&gt; 126000, 123000, 122000, 114000, 114…
+## $ `Mid-Career_10_Percentile_Salary` &lt;dbl&gt; 76800, NA, NA, 66800, NA, 80000, 63…
+## $ `Mid-Career_25_Percentile_Salary` &lt;dbl&gt; 99200, 104000, 96000, 94300, 80200,…
+## $ `Mid-Career_75_Percentile_Salary` &lt;dbl&gt; 168000, 161000, 180000, 143000, 142…
+## $ `Mid-Career_90_Percentile_Salary` &lt;dbl&gt; 220000, NA, NA, 190000, NA, 180000,…</code></pre>
+<pre class="r"><code>untidysalaries &lt;- salaries_by_college_type %&gt;% pivot_wider(names_from = &quot;School_Type&quot;, 
+    values_from = &quot;Institution&quot;)
+glimpse(untidysalaries)</code></pre>
+<pre><code>## Observations: 249
+## Variables: 11
+## $ Starting_Median_Salary            &lt;dbl&gt; 72200, 75500, 71800, 62400, 62200, …
+## $ `Mid-Career_Median_Salary`        &lt;dbl&gt; 126000, 123000, 122000, 114000, 114…
+## $ `Mid-Career_10_Percentile_Salary` &lt;dbl&gt; 76800, NA, NA, 66800, NA, 80000, 63…
+## $ `Mid-Career_25_Percentile_Salary` &lt;dbl&gt; 99200, 104000, 96000, 94300, 80200,…
+## $ `Mid-Career_75_Percentile_Salary` &lt;dbl&gt; 168000, 161000, 180000, 143000, 142…
+## $ `Mid-Career_90_Percentile_Salary` &lt;dbl&gt; 220000, NA, NA, 190000, NA, 180000,…
+## $ Engineering                       &lt;chr&gt; &quot;Massachusetts Institute of Technol…
+## $ Party                             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ `Liberal Arts`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ `Ivy League`                      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ State                             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA,…</code></pre>
+<pre class="r"><code>tidysalaries &lt;- untidysalaries %&gt;% pivot_longer(7:11, names_to = &quot;School_Type&quot;, 
+    values_to = &quot;Institution&quot;) %&gt;% na.omit
+glimpse(tidysalaries)</code></pre>
+<pre><code>## Observations: 231
+## Variables: 8
+## $ Starting_Median_Salary            &lt;dbl&gt; 72200, 62400, 61000, 61800, 61100, …
+## $ `Mid-Career_Median_Salary`        &lt;dbl&gt; 126000, 114000, 114000, 111000, 110…
+## $ `Mid-Career_10_Percentile_Salary` &lt;dbl&gt; 76800, 66800, 80000, 63300, 71600, …
+## $ `Mid-Career_25_Percentile_Salary` &lt;dbl&gt; 99200, 94300, 91200, 80100, 85500, …
+## $ `Mid-Career_75_Percentile_Salary` &lt;dbl&gt; 168000, 143000, 137000, 150000, 140…
+## $ `Mid-Career_90_Percentile_Salary` &lt;dbl&gt; 220000, 190000, 180000, 209000, 182…
+## $ School_Type                       &lt;chr&gt; &quot;Engineering&quot;, &quot;Engineering&quot;, &quot;Engi…
+## $ Institution                       &lt;chr&gt; &quot;Massachusetts Institute of Technol…</code></pre>
+<p>To begin, I imported and glimpsed at my data. I noticed that besides a handful of NAs, my data was pretty tidy. Because of this, I decided to untidy my salaries dataset by using pivot_wider and naming this new dataset “untidysalaries”. This changed my data from long to wide by removing rows and adding columns. A separate column for each school type (Engineering, Party, Liberal Arts, Ivy League, and State) was made and several new NAs were introduced. I then used pivot_longer to undo pivot_wider. This action removed the newly made columns and created the original rows again, with the five different school types falling under the column of “School Type” rather than each having a column of their own. This dataset was named “tidysalaries”. These actions were completed in order to demonstrate my tidying skills.</p>
+</div>
+<div id="joiningmerging" class="section level1">
+<h1>2. Joining/Merging</h1>
+<pre class="r"><code>library(dplyr)
+fulldata &lt;- inner_join(salaries_by_college_type, SchoolRankings)
+head(fulldata)</code></pre>
+<pre><code>## # A tibble: 6 x 12
+##   Institution School_Type Starting_Median… `Mid-Career_Med… `Mid-Career_10_…
+##   &lt;chr&gt;       &lt;chr&gt;                  &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Harvey Mud… Engineering            71800           122000               NA
+## 2 Georgia In… Engineering            58300           106000            67200
+## 3 Colorado S… Engineering            58100           106000            62200
+## 4 Stevens In… Engineering            60600           105000            68700
+## 5 Bucknell U… Liberal Ar…            54100           110000            62800
+## 6 Colgate Un… Liberal Ar…            52800           108000            60000
+## # … with 7 more variables: `Mid-Career_25_Percentile_Salary` &lt;dbl&gt;,
+## #   `Mid-Career_75_Percentile_Salary` &lt;dbl&gt;,
+## #   `Mid-Career_90_Percentile_Salary` &lt;dbl&gt;, `AR%` &lt;dbl&gt;, Location &lt;chr&gt;,
+## #   `Price$` &lt;dbl&gt;, SAT_Range &lt;chr&gt;</code></pre>
+<p>I performed an inner_join because I only wanted to look at the colleges that were in both datasets. I did this in order to keep my dataset tidy and leave all unmatched rows out. By performing this join, 100 observations were dropped from the “SchoolRankings” dataset and 219 observations were dropped from the “salaries_by_college_type” dataset. The datasets were joined by Institution, so any institution that was in one dataset but not the other was dropped. This left 50 institutions that were common to both datasets and a total of 12 columns. Because each dataset was reduced significantly, there could be potential problems with the remaining 50 institutions. It is no longer as representative of the original data. There are 30 Liberal Arts schools, 8 Ivy Leagues, 8 State schools, and 4 Engineering schools. This could pose potential problems with summary statistics or other analyses because some schools are so underrepresented.</p>
+</div>
+<div id="wrangling" class="section level1">
+<h1>3. Wrangling</h1>
+<pre class="r"><code>fulldata %&gt;% filter(`Mid-Career_10_Percentile_Salary` != &quot;N/A&quot;) %&gt;% 
+    filter(`Mid-Career_90_Percentile_Salary` != &quot;N/A&quot;)</code></pre>
+<pre><code>## # A tibble: 25 x 12
+##    Institution School_Type Starting_Median… `Mid-Career_Med… `Mid-Career_10_…
+##    &lt;chr&gt;       &lt;chr&gt;                  &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Georgia In… Engineering            58300           106000            67200
+##  2 Colorado S… Engineering            58100           106000            62200
+##  3 Stevens In… Engineering            60600           105000            68700
+##  4 Bucknell U… Liberal Ar…            54100           110000            62800
+##  5 Colgate Un… Liberal Ar…            52800           108000            60000
+##  6 Lafayette … Liberal Ar…            53900           107000            70600
+##  7 University… Liberal Ar…            48600            94600            44500
+##  8 St. Olaf C… Liberal Ar…            45300            86200            41300
+##  9 Smith Coll… Liberal Ar…            44000            83900            45100
+## 10 Dartmouth … Ivy League             58000           134000            63100
+## # … with 15 more rows, and 7 more variables:
+## #   `Mid-Career_25_Percentile_Salary` &lt;dbl&gt;,
+## #   `Mid-Career_75_Percentile_Salary` &lt;dbl&gt;,
+## #   `Mid-Career_90_Percentile_Salary` &lt;dbl&gt;, `AR%` &lt;dbl&gt;, Location &lt;chr&gt;,
+## #   `Price$` &lt;dbl&gt;, SAT_Range &lt;chr&gt;</code></pre>
+<pre class="r"><code>fulldata %&gt;% summarize(mean(Starting_Median_Salary)) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 1
+## Variables: 1
+## $ `mean(Starting_Median_Salary)` &lt;dbl&gt; 50358</code></pre>
+<pre class="r"><code>fulldata %&gt;% summarize(mean(`Mid-Career_Median_Salary`)) %&gt;% 
+    glimpse()</code></pre>
+<pre><code>## Observations: 1
+## Variables: 1
+## $ `mean(\`Mid-Career_Median_Salary\`)` &lt;dbl&gt; 97900</code></pre>
+<pre class="r"><code>fulldata %&gt;% summarize(mean(`AR%`)) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 1
+## Variables: 1
+## $ `mean(\`AR%\`)` &lt;dbl&gt; 33.06</code></pre>
+<pre class="r"><code>fulldata %&gt;% summarize(mean(`Price$`)) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 1
+## Variables: 1
+## $ `mean(\`Price$\`)` &lt;dbl&gt; 24868.82</code></pre>
+<pre class="r"><code>fulldata %&gt;% summarize(median(`AR%`)) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 1
+## Variables: 1
+## $ `median(\`AR%\`)` &lt;dbl&gt; 28.5</code></pre>
+<pre class="r"><code>highAR &lt;- fulldata %&gt;% filter(`AR%` &gt; 33.06) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 20
+## Variables: 12
+## $ Institution                       &lt;chr&gt; &quot;Colorado School of Mines&quot;, &quot;Steven…
+## $ School_Type                       &lt;chr&gt; &quot;Engineering&quot;, &quot;Engineering&quot;, &quot;Libe…
+## $ Starting_Median_Salary            &lt;dbl&gt; 58100, 60600, 50200, 51900, 42400, …
+## $ `Mid-Career_Median_Salary`        &lt;dbl&gt; 106000, 105000, 106000, 105000, 941…
+## $ `Mid-Career_10_Percentile_Salary` &lt;dbl&gt; 62200, 68700, NA, NA, NA, 41300, NA…
+## $ `Mid-Career_25_Percentile_Salary` &lt;dbl&gt; 87900, 81900, 65600, 54800, 57100, …
+## $ `Mid-Career_75_Percentile_Salary` &lt;dbl&gt; 142000, 138000, 143000, 157000, 131…
+## $ `Mid-Career_90_Percentile_Salary` &lt;dbl&gt; 201000, 185000, NA, NA, NA, 185000,…
+## $ `AR%`                             &lt;dbl&gt; 56, 44, 40, 42, 51, 43, 46, 37, 34,…
+## $ Location                          &lt;chr&gt; &quot;Golden, CO&quot;, &quot;Hoboken, NJ&quot;, &quot;Worce…
+## $ `Price$`                          &lt;dbl&gt; 25472, 38469, 27005, 33738, 29784, …
+## $ SAT_Range                         &lt;chr&gt; &quot;1310-1450&quot;, &quot;1320-1470&quot;, &quot;1230-137…</code></pre>
+<pre class="r"><code>lowAR &lt;- fulldata %&gt;% filter(`AR%` &lt; 33.06) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 30
+## Variables: 12
+## $ Institution                       &lt;chr&gt; &quot;Harvey Mudd College&quot;, &quot;Georgia Ins…
+## $ School_Type                       &lt;chr&gt; &quot;Engineering&quot;, &quot;Engineering&quot;, &quot;Libe…
+## $ Starting_Median_Salary            &lt;dbl&gt; 71800, 58300, 54100, 52800, 54500, …
+## $ `Mid-Career_Median_Salary`        &lt;dbl&gt; 122000, 106000, 110000, 108000, 107…
+## $ `Mid-Career_10_Percentile_Salary` &lt;dbl&gt; NA, 67200, 62800, 60000, NA, 70600,…
+## $ `Mid-Career_25_Percentile_Salary` &lt;dbl&gt; 96000, 85200, 80600, 76700, 84900, …
+## $ `Mid-Career_75_Percentile_Salary` &lt;dbl&gt; 180000, 137000, 156000, 167000, 162…
+## $ `Mid-Career_90_Percentile_Salary` &lt;dbl&gt; NA, 183000, 251000, 265000, NA, 204…
+## $ `AR%`                             &lt;dbl&gt; 15, 23, 31, 28, 13, 31, 14, 11, 20,…
+## $ Location                          &lt;chr&gt; &quot;Claremont, CA&quot;, &quot;Atlanta, GA&quot;, &quot;Le…
+## $ `Price$`                          &lt;dbl&gt; 38135, 15873, 37817, 22182, 19519, …
+## $ SAT_Range                         &lt;chr&gt; &quot;1470-1570&quot;, &quot;1090-1520&quot;, &quot;1250-142…</code></pre>
+<pre class="r"><code>fulldata %&gt;% summarize(max(`Mid-Career_Median_Salary`)) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 1
+## Variables: 1
+## $ `max(\`Mid-Career_Median_Salary\`)` &lt;dbl&gt; 134000</code></pre>
+<pre class="r"><code>fulldata %&gt;% summarize(max(`AR%`)) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 1
+## Variables: 1
+## $ `max(\`AR%\`)` &lt;dbl&gt; 89</code></pre>
+<pre class="r"><code>fulldata %&gt;% filter(`Mid-Career_Median_Salary` == 134000) %&gt;% 
+    glimpse()</code></pre>
+<pre><code>## Observations: 1
+## Variables: 12
+## $ Institution                       &lt;chr&gt; &quot;Dartmouth College&quot;
+## $ School_Type                       &lt;chr&gt; &quot;Ivy League&quot;
+## $ Starting_Median_Salary            &lt;dbl&gt; 58000
+## $ `Mid-Career_Median_Salary`        &lt;dbl&gt; 134000
+## $ `Mid-Career_10_Percentile_Salary` &lt;dbl&gt; 63100
+## $ `Mid-Career_25_Percentile_Salary` &lt;dbl&gt; 90200
+## $ `Mid-Career_75_Percentile_Salary` &lt;dbl&gt; 234000
+## $ `Mid-Career_90_Percentile_Salary` &lt;dbl&gt; 321000
+## $ `AR%`                             &lt;dbl&gt; 10
+## $ Location                          &lt;chr&gt; &quot;Hanover, NH&quot;
+## $ `Price$`                          &lt;dbl&gt; 22303
+## $ SAT_Range                         &lt;chr&gt; &quot;1430-1560&quot;</code></pre>
+<pre class="r"><code>fulldata %&gt;% filter(`AR%` == 89) %&gt;% glimpse</code></pre>
+<pre><code>## Observations: 1
+## Variables: 12
+## $ Institution                       &lt;chr&gt; &quot;Iowa State University&quot;
+## $ School_Type                       &lt;chr&gt; &quot;State&quot;
+## $ Starting_Median_Salary            &lt;dbl&gt; 45400
+## $ `Mid-Career_Median_Salary`        &lt;dbl&gt; 84600
+## $ `Mid-Career_10_Percentile_Salary` &lt;dbl&gt; 44400
+## $ `Mid-Career_25_Percentile_Salary` &lt;dbl&gt; 60000
+## $ `Mid-Career_75_Percentile_Salary` &lt;dbl&gt; 109000
+## $ `Mid-Career_90_Percentile_Salary` &lt;dbl&gt; 147000
+## $ `AR%`                             &lt;dbl&gt; 89
+## $ Location                          &lt;chr&gt; &quot;Ames, IA&quot;
+## $ `Price$`                          &lt;dbl&gt; 13949
+## $ SAT_Range                         &lt;chr&gt; &quot;1160-1410&quot;</code></pre>
+<pre class="r"><code>fulldata %&gt;% summarize_all(function(x) sum(is.na(x)))</code></pre>
+<pre><code>## # A tibble: 1 x 12
+##   Institution School_Type Starting_Median… `Mid-Career_Med… `Mid-Career_10_…
+##         &lt;int&gt;       &lt;int&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;
+## 1           0           0                0                0               25
+## # … with 7 more variables: `Mid-Career_25_Percentile_Salary` &lt;int&gt;,
+## #   `Mid-Career_75_Percentile_Salary` &lt;int&gt;,
+## #   `Mid-Career_90_Percentile_Salary` &lt;int&gt;, `AR%` &lt;int&gt;, Location &lt;int&gt;,
+## #   `Price$` &lt;int&gt;, SAT_Range &lt;int&gt;</code></pre>
+<pre class="r"><code>fulldata %&gt;% group_by(Location) %&gt;% group_by(School_Type) %&gt;% 
+    summarize(sdprice = sd(`Price$`)) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 4
+## Variables: 2
+## $ School_Type &lt;chr&gt; &quot;Engineering&quot;, &quot;Ivy League&quot;, &quot;Liberal Arts&quot;, &quot;State&quot;
+## $ sdprice     &lt;dbl&gt; 10907.573, 5099.009, 5873.948, 3577.301</code></pre>
+<pre class="r"><code>byschooltype &lt;- fulldata %&gt;% dplyr::select(-c(&quot;Mid-Career_10_Percentile_Salary&quot;, 
+    &quot;Mid-Career_25_Percentile_Salary&quot;, &quot;Mid-Career_75_Percentile_Salary&quot;, 
+    &quot;Mid-Career_90_Percentile_Salary&quot;)) %&gt;% group_by(School_Type) %&gt;% 
+    mutate(Salary_Rank = dense_rank(desc(`Mid-Career_Median_Salary`))) %&gt;% 
+    arrange(School_Type)
+newAR &lt;- byschooltype %&gt;% mutate(AR_cat = case_when(`AR%` &gt; 33 ~ 
+    &quot;high&quot;, `AR%` == 33 ~ &quot;high&quot;, `AR%` &lt; 33 ~ &quot;low&quot;))
+newAR %&gt;% group_by(School_Type) %&gt;% group_by(AR_cat) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 50
+## Variables: 10
+## Groups: AR_cat [2]
+## $ Institution                &lt;chr&gt; &quot;Harvey Mudd College&quot;, &quot;Georgia Institute …
+## $ School_Type                &lt;chr&gt; &quot;Engineering&quot;, &quot;Engineering&quot;, &quot;Engineering…
+## $ Starting_Median_Salary     &lt;dbl&gt; 71800, 58300, 58100, 60600, 58000, 66500, …
+## $ `Mid-Career_Median_Salary` &lt;dbl&gt; 122000, 106000, 106000, 105000, 134000, 13…
+## $ `AR%`                      &lt;dbl&gt; 15, 23, 56, 44, 10, 6, 7, 5, 9, 13, 8, 7, …
+## $ Location                   &lt;chr&gt; &quot;Claremont, CA&quot;, &quot;Atlanta, GA&quot;, &quot;Golden, C…
+## $ `Price$`                   &lt;dbl&gt; 38135, 15873, 25472, 38469, 22303, 16302, …
+## $ SAT_Range                  &lt;chr&gt; &quot;1470-1570&quot;, &quot;1090-1520&quot;, &quot;1310-1450&quot;, &quot;13…
+## $ Salary_Rank                &lt;int&gt; 1, 2, 2, 3, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, …
+## $ AR_cat                     &lt;chr&gt; &quot;low&quot;, &quot;low&quot;, &quot;high&quot;, &quot;high&quot;, &quot;low&quot;, &quot;low&quot;…</code></pre>
+<pre class="r"><code>byschooltype %&gt;% arrange(Salary_Rank) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 50
+## Variables: 9
+## Groups: School_Type [4]
+## $ Institution                &lt;chr&gt; &quot;Harvey Mudd College&quot;, &quot;Dartmouth College&quot;…
+## $ School_Type                &lt;chr&gt; &quot;Engineering&quot;, &quot;Ivy League&quot;, &quot;Liberal Arts…
+## $ Starting_Median_Salary     &lt;dbl&gt; 71800, 58000, 54100, 49700, 58300, 58100, …
+## $ `Mid-Career_Median_Salary` &lt;dbl&gt; 122000, 134000, 110000, 96100, 106000, 106…
+## $ `AR%`                      &lt;dbl&gt; 15, 10, 31, 71, 23, 56, 6, 28, 57, 44, 7, …
+## $ Location                   &lt;chr&gt; &quot;Claremont, CA&quot;, &quot;Hanover, NH&quot;, &quot;Lewisburg…
+## $ `Price$`                   &lt;dbl&gt; 38135, 22303, 37817, 19554, 15873, 25472, …
+## $ SAT_Range                  &lt;chr&gt; &quot;1470-1570&quot;, &quot;1430-1560&quot;, &quot;1250-1420&quot;, &quot;11…
+## $ Salary_Rank                &lt;int&gt; 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, …</code></pre>
+<pre class="r"><code>byschooltype %&gt;% summarize_all(n_distinct) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 4
+## Variables: 9
+## $ School_Type                &lt;chr&gt; &quot;Engineering&quot;, &quot;Ivy League&quot;, &quot;Liberal Arts…
+## $ Institution                &lt;int&gt; 4, 8, 30, 8
+## $ Starting_Median_Salary     &lt;int&gt; 4, 8, 29, 7
+## $ `Mid-Career_Median_Salary` &lt;int&gt; 3, 8, 24, 8
+## $ `AR%`                      &lt;int&gt; 4, 7, 27, 7
+## $ Location                   &lt;int&gt; 4, 8, 29, 8
+## $ `Price$`                   &lt;int&gt; 4, 8, 30, 8
+## $ SAT_Range                  &lt;int&gt; 4, 8, 26, 7
+## $ Salary_Rank                &lt;int&gt; 3, 8, 24, 8</code></pre>
+<pre class="r"><code>summary(byschooltype)</code></pre>
+<pre><code>##  Institution        School_Type        Starting_Median_Salary
+##  Length:50          Length:50          Min.   :40500         
+##  Class :character   Class :character   1st Qu.:44850         
+##  Mode  :character   Mode  :character   Median :48500         
+##                                        Mean   :50358         
+##                                        3rd Qu.:54400         
+##                                        Max.   :71800         
+##  Mid-Career_Median_Salary      AR%          Location             Price$     
+##  Min.   : 74600           Min.   : 5.00   Length:50          Min.   :12117  
+##  1st Qu.: 84525           1st Qu.:15.00   Class :character   1st Qu.:20050  
+##  Median : 96300           Median :28.50   Mode  :character   Median :24105  
+##  Mean   : 97900           Mean   :33.06                      Mean   :24869  
+##  3rd Qu.:107000           3rd Qu.:45.50                      3rd Qu.:29204  
+##  Max.   :134000           Max.   :89.00                      Max.   :39794  
+##   SAT_Range          Salary_Rank   
+##  Length:50          Min.   : 1.00  
+##  Class :character   1st Qu.: 3.00  
+##  Mode  :character   Median : 6.50  
+##                     Mean   : 8.72  
+##                     3rd Qu.:13.75  
+##                     Max.   :24.00</code></pre>
+<pre class="r"><code>byschooltype %&gt;% summarize_if(is.numeric, sd, na.rm = T) %&gt;% 
+    glimpse()</code></pre>
+<pre><code>## Observations: 4
+## Variables: 6
+## $ School_Type                &lt;chr&gt; &quot;Engineering&quot;, &quot;Ivy League&quot;, &quot;Liberal Arts…
+## $ Starting_Median_Salary     &lt;dbl&gt; 6499.744, 3218.584, 4020.785, 2858.790
+## $ `Mid-Career_Median_Salary` &lt;dbl&gt; 8180.261, 10412.047, 11162.591, 4860.335
+## $ `AR%`                      &lt;dbl&gt; 18.841444, 2.531939, 13.749357, 13.819629
+## $ `Price$`                   &lt;dbl&gt; 10907.573, 5099.009, 5873.948, 3577.301
+## $ Salary_Rank                &lt;dbl&gt; 0.8164966, 2.4494897, 6.9467598, 2.4494897</code></pre>
+<pre class="r"><code>summarystats &lt;- byschooltype %&gt;% summarize(mean_starting_salary = mean(Starting_Median_Salary), 
+    sd_starting_salary = sd(Starting_Median_Salary), cor_salaries = cor(Starting_Median_Salary, 
+        `Mid-Career_Median_Salary`), min_starting_salary = min(Starting_Median_Salary), 
+    max_starting_salary = max(Starting_Median_Salary))
+summarystats2 &lt;- byschooltype %&gt;% summarize(meanAR = mean(`AR%`), 
+    sdAR = sd(`AR%`), minAR = min(`AR%`), maxAR = max(`AR%`), 
+    cor_ARPrice = cor(`AR%`, `Price$`))
+summarystats3 &lt;- byschooltype %&gt;% summarize(meanprice = mean(`Price$`), 
+    sdprice = sd(`Price$`), minprice = min(`Price$`), maxprice = max(`Price$`))
+newsummary &lt;- full_join(summarystats, summarystats2)
+totalnewsummary &lt;- full_join(newsummary, summarystats3) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 4
+## Variables: 15
+## $ School_Type          &lt;chr&gt; &quot;Engineering&quot;, &quot;Ivy League&quot;, &quot;Liberal Arts&quot;, &quot;St…
+## $ mean_starting_salary &lt;dbl&gt; 62200.00, 60475.00, 47053.33, 46712.50
+## $ sd_starting_salary   &lt;dbl&gt; 6499.744, 3218.584, 4020.785, 2858.790
+## $ cor_salaries         &lt;dbl&gt; 0.9729871, 0.4170142, 0.8410719, 0.8534101
+## $ min_starting_salary  &lt;dbl&gt; 58100, 56200, 40500, 42800
+## $ max_starting_salary  &lt;dbl&gt; 71800, 66500, 54500, 51400
+## $ meanAR               &lt;dbl&gt; 34.500, 8.125, 29.700, 69.875
+## $ sdAR                 &lt;dbl&gt; 18.841444, 2.531939, 13.749357, 13.819629
+## $ minAR                &lt;dbl&gt; 15, 5, 8, 47
+## $ maxAR                &lt;dbl&gt; 56, 13, 68, 89
+## $ cor_ARPrice          &lt;dbl&gt; -0.0211964, 0.8802455, 0.6650389, 0.1546587
+## $ meanprice            &lt;dbl&gt; 29487.25, 22268.88, 26984.97, 17224.00
+## $ sdprice              &lt;dbl&gt; 10907.573, 5099.009, 5873.948, 3577.301
+## $ minprice             &lt;dbl&gt; 15873, 16302, 18427, 12117
+## $ maxprice             &lt;dbl&gt; 38469, 31449, 39794, 22613</code></pre>
+<pre class="r"><code>install.packages(&quot;kableExtra&quot;)
+library(knitr)
+library(kableExtra)
+kable(totalnewsummary[1:4, 1:15], caption = &quot;Summary Stats for School Types&quot;) %&gt;% 
+    kable_styling(&quot;striped&quot;, full_width = F) %&gt;% pack_rows(&quot;Engineering&quot;, 
+    1, 1) %&gt;% pack_rows(&quot;Liberal Arts&quot;, 3, 3) %&gt;% pack_rows(&quot;Ivy League&quot;, 
+    2, 2) %&gt;% pack_rows(&quot;State&quot;, 4, 4)</code></pre>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:unnamed-chunk-3">Table 1: </span>Summary Stats for School Types
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+School_Type
+</th>
+<th style="text-align:right;">
+mean_starting_salary
+</th>
+<th style="text-align:right;">
+sd_starting_salary
+</th>
+<th style="text-align:right;">
+cor_salaries
+</th>
+<th style="text-align:right;">
+min_starting_salary
+</th>
+<th style="text-align:right;">
+max_starting_salary
+</th>
+<th style="text-align:right;">
+meanAR
+</th>
+<th style="text-align:right;">
+sdAR
+</th>
+<th style="text-align:right;">
+minAR
+</th>
+<th style="text-align:right;">
+maxAR
+</th>
+<th style="text-align:right;">
+cor_ARPrice
+</th>
+<th style="text-align:right;">
+meanprice
+</th>
+<th style="text-align:right;">
+sdprice
+</th>
+<th style="text-align:right;">
+minprice
+</th>
+<th style="text-align:right;">
+maxprice
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="1">
+<td colspan="15" style="border-bottom: 1px solid;">
+<strong>Engineering</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Engineering
+</td>
+<td style="text-align:right;">
+62200.00
+</td>
+<td style="text-align:right;">
+6499.744
+</td>
+<td style="text-align:right;">
+0.9729871
+</td>
+<td style="text-align:right;">
+58100
+</td>
+<td style="text-align:right;">
+71800
+</td>
+<td style="text-align:right;">
+34.500
+</td>
+<td style="text-align:right;">
+18.841444
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+-0.0211964
+</td>
+<td style="text-align:right;">
+29487.25
+</td>
+<td style="text-align:right;">
+10907.573
+</td>
+<td style="text-align:right;">
+15873
+</td>
+<td style="text-align:right;">
+38469
+</td>
+</tr>
+<tr grouplength="1">
+<td colspan="15" style="border-bottom: 1px solid;">
+<strong>Ivy League</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ivy League
+</td>
+<td style="text-align:right;">
+60475.00
+</td>
+<td style="text-align:right;">
+3218.584
+</td>
+<td style="text-align:right;">
+0.4170142
+</td>
+<td style="text-align:right;">
+56200
+</td>
+<td style="text-align:right;">
+66500
+</td>
+<td style="text-align:right;">
+8.125
+</td>
+<td style="text-align:right;">
+2.531939
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+0.8802455
+</td>
+<td style="text-align:right;">
+22268.88
+</td>
+<td style="text-align:right;">
+5099.009
+</td>
+<td style="text-align:right;">
+16302
+</td>
+<td style="text-align:right;">
+31449
+</td>
+</tr>
+<tr grouplength="1">
+<td colspan="15" style="border-bottom: 1px solid; padding-left: 2em;" indentlevel="1">
+<strong>Liberal Arts</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Liberal Arts
+</td>
+<td style="text-align:right;">
+47053.33
+</td>
+<td style="text-align:right;">
+4020.785
+</td>
+<td style="text-align:right;">
+0.8410719
+</td>
+<td style="text-align:right;">
+40500
+</td>
+<td style="text-align:right;">
+54500
+</td>
+<td style="text-align:right;">
+29.700
+</td>
+<td style="text-align:right;">
+13.749357
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+68
+</td>
+<td style="text-align:right;">
+0.6650389
+</td>
+<td style="text-align:right;">
+26984.97
+</td>
+<td style="text-align:right;">
+5873.948
+</td>
+<td style="text-align:right;">
+18427
+</td>
+<td style="text-align:right;">
+39794
+</td>
+</tr>
+<tr grouplength="1">
+<td colspan="15" style="border-bottom: 1px solid;">
+<strong>State</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+State
+</td>
+<td style="text-align:right;">
+46712.50
+</td>
+<td style="text-align:right;">
+2858.790
+</td>
+<td style="text-align:right;">
+0.8534101
+</td>
+<td style="text-align:right;">
+42800
+</td>
+<td style="text-align:right;">
+51400
+</td>
+<td style="text-align:right;">
+69.875
+</td>
+<td style="text-align:right;">
+13.819629
+</td>
+<td style="text-align:right;">
+47
+</td>
+<td style="text-align:right;">
+89
+</td>
+<td style="text-align:right;">
+0.1546587
+</td>
+<td style="text-align:right;">
+17224.00
+</td>
+<td style="text-align:right;">
+3577.301
+</td>
+<td style="text-align:right;">
+12117
+</td>
+<td style="text-align:right;">
+22613
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>df &lt;- fulldata %&gt;% na.omit %&gt;% select_if(is.numeric)
+cor(df)</code></pre>
+<pre><code>##                                 Starting_Median_Salary Mid-Career_Median_Salary
+## Starting_Median_Salary                       1.0000000                0.9017287
+## Mid-Career_Median_Salary                     0.9017287                1.0000000
+## Mid-Career_10_Percentile_Salary              0.7837253                0.7482854
+## Mid-Career_25_Percentile_Salary              0.9110233                0.9031567
+## Mid-Career_75_Percentile_Salary              0.7520029                0.9417837
+## Mid-Career_90_Percentile_Salary              0.7016844                0.9032221
+## AR%                                         -0.7721737               -0.8133105
+## Price$                                       0.1898464                0.1475821
+##                                 Mid-Career_10_Percentile_Salary
+## Starting_Median_Salary                                0.7837253
+## Mid-Career_Median_Salary                              0.7482854
+## Mid-Career_10_Percentile_Salary                       1.0000000
+## Mid-Career_25_Percentile_Salary                       0.8885681
+## Mid-Career_75_Percentile_Salary                       0.5613020
+## Mid-Career_90_Percentile_Salary                       0.4938375
+## AR%                                                  -0.5482747
+## Price$                                                0.3275366
+##                                 Mid-Career_25_Percentile_Salary
+## Starting_Median_Salary                                0.9110233
+## Mid-Career_Median_Salary                              0.9031567
+## Mid-Career_10_Percentile_Salary                       0.8885681
+## Mid-Career_25_Percentile_Salary                       1.0000000
+## Mid-Career_75_Percentile_Salary                       0.7434955
+## Mid-Career_90_Percentile_Salary                       0.6766279
+## AR%                                                  -0.6468835
+## Price$                                                0.1745009
+##                                 Mid-Career_75_Percentile_Salary
+## Starting_Median_Salary                                0.7520029
+## Mid-Career_Median_Salary                              0.9417837
+## Mid-Career_10_Percentile_Salary                       0.5613020
+## Mid-Career_25_Percentile_Salary                       0.7434955
+## Mid-Career_75_Percentile_Salary                       1.0000000
+## Mid-Career_90_Percentile_Salary                       0.9590237
+## AR%                                                  -0.8180790
+## Price$                                                0.1288950
+##                                 Mid-Career_90_Percentile_Salary        AR%
+## Starting_Median_Salary                                0.7016844 -0.7721737
+## Mid-Career_Median_Salary                              0.9032221 -0.8133105
+## Mid-Career_10_Percentile_Salary                       0.4938375 -0.5482747
+## Mid-Career_25_Percentile_Salary                       0.6766279 -0.6468835
+## Mid-Career_75_Percentile_Salary                       0.9590237 -0.8180790
+## Mid-Career_90_Percentile_Salary                       1.0000000 -0.8176629
+## AR%                                                  -0.8176629  1.0000000
+## Price$                                                0.1369273 -0.2390450
+##                                     Price$
+## Starting_Median_Salary           0.1898464
+## Mid-Career_Median_Salary         0.1475821
+## Mid-Career_10_Percentile_Salary  0.3275366
+## Mid-Career_25_Percentile_Salary  0.1745009
+## Mid-Career_75_Percentile_Salary  0.1288950
+## Mid-Career_90_Percentile_Salary  0.1369273
+## AR%                             -0.2390450
+## Price$                           1.0000000</code></pre>
+<p>I generated several summary statistics. First, I filtered out the NAs from the Mid-Career 10th Percentile Salary column as well as from the Mid-Career 90th Percentile Salary column. I did this because these were the only two columns with any NAs and by removing them, the dataset was cut in half. I then began finding the means of several numeric variables of the full dataset. I found the mean starting median salary of all institutions along with the mean mid-career median salary, acceptance rate, and cost of attendance. It was interesting to see that the mean starting median salary of 50 of America’s top institutions was only 50,358 dollars. The mean mid-career median salary of these institutions, however, nearly doubled to 97,900 dollars. I also discovered that the mean acceptance rate of these schools was 33.06% and the mean price was 24,868.82 dollars. These numbers make sense because these top institutions have lower acceptance rates than other schools in the country. Next, I found the median acceptance rate, which was lower than the mean acceptance rate by 4.56%, and created datasets based on this mean acceptance rate. Any institution above the mean acceptance rate was grouped in a dataset called, “highAR”. Likewise, any institution below the mean acceptance rate was grouped in a dataset called, “lowAR.” There were 20 schools in the highAR dataset and 30 schools in the lowAR dataset. After finding the maximum mid-career median salary and acceptance rate, which were 134,000 dollars and 89% and belonged to Dartmouth College and Iowa State University, respectively, I calculated the total number of NAs in each column.</p>
+<p>After computing summary statistics for the full dataset, I decided to use the group_by function. First, I grouped by the two categorial variables of “School Type” and “Location”. I then created a new dataset where all of the salary columns were removed except for “Starting Median Salary” and “Mid-Career Median Salary”, which I believed to be the two most useful salary columns. I then grouped this dataset by “School-Type” and created a column via the mutate function called “Salary Rank”, which ranked each institution within its respective school type in terms of Mid-Career Median Salary. Harvey Mudd College was the highest ranked Engineering school, Dartmouth College was the highest ranked Ivy League school, Bucknell University was the highest ranked Liberal Arts school, and Texas A&amp;M University was the highest ranked State school. I then created several other summary statistics for this data grouped by “School Type” including mean, standard deviation, minimum, and maximum of starting median salary, acceptance rate, and price. I also found the correlation between starting median salary and mid-career median salary as well as acceptance rate and price. All of these statistics were joined together and displayed in a table. It was interesting to see that the mean starting salary was higher for the engineering and Ivy League groups and lower for the Liberal Arts and State groups compared to the overall mean. Conversely, the mean acceptance rates for the Ivy League and Liberal Arts schools were lower than the overall mean whereas the Enginerring and State school mean acceptance rates were higher. I also found it fascinating that a Liberal Arts school had the maximum cost of attendance out of all 50 schools. As I predicted in the beginning, there was a positive correlation between mean starting median salary and mean mid-career median salary; however, there did not seem to be a correlation consistent across all four groups between acceptance rate and cost of attendance. Finally, I created a correlation matrix with my numeric variables.</p>
+</div>
+<div id="visualizing" class="section level1">
+<h1>4. Visualizing</h1>
+<pre class="r"><code>library(ggplot2)
+
+tidycor &lt;- cor(df) %&gt;% as.data.frame %&gt;% rownames_to_column %&gt;% 
+    pivot_longer(-1, names_to = &quot;name&quot;, values_to = &quot;correlation&quot;)
+tidycor %&gt;% ggplot(aes(rowname, name, fill = correlation)) + 
+    geom_tile() + scale_fill_gradient2(low = &quot;red&quot;, mid = &quot;white&quot;, 
+    high = &quot;blue&quot;) + geom_text(aes(label = round(correlation, 
+    2)), color = &quot;black&quot;, size = 4) + coord_fixed() + xlab(&quot;&quot;) + 
+    ylab(&quot;&quot;) + theme(axis.text.x = element_text(angle = 35, hjust = 1))</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot(fulldata, aes(Starting_Median_Salary, `Mid-Career_Median_Salary`)) + 
+    geom_point(aes(y = `Mid-Career_Median_Salary`, color = School_Type), 
+        stat = &quot;summary&quot;, fun.y = &quot;mean&quot;) + ggtitle(&quot;Starting Median Salary and Mid-Career Median Salary by School Type&quot;) + 
+    scale_y_continuous(name = &quot;Mid-Career Median Salary (USD)&quot;) + 
+    xlab(&quot;Starting Median Salary (USD)&quot;) + theme_light(base_size = 10) + 
+    scale_color_brewer(palette = &quot;Dark2&quot;)</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>newAR &lt;- byschooltype %&gt;% mutate(AR_cat = case_when(`AR%` &gt; 33 ~ 
+    &quot;high&quot;, `AR%` == 33 ~ &quot;high&quot;, `AR%` &lt; 33 ~ &quot;low&quot;))
+
+ggplot(newAR, aes(AR_cat, `Price$`)) + geom_bar(aes(y = `Price$`, 
+    fill = School_Type), stat = &quot;summary&quot;, fun.y = &quot;mean&quot;) + 
+    ggtitle(&quot;Acceptance Rate and Cost of Attendance by School Type&quot;) + 
+    xlab(&quot;Acceptance Rate&quot;) + ylab(&quot;Cost of Attendance (USD)&quot;) + 
+    scale_fill_brewer() + theme_light(base_size = 12) + scale_y_continuous(breaks = seq(0, 
+    80000, 10000))</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>In the correlation matrix, a correlation is given between every numeric variable. The strongest correlation is 0.96 between mid-career 90th percentile salary and mid-career 75th percentile salary. The weakest correlation is 0.13 between cost of attendance and mid-career 75th percentile salary. In the second plot, the correlation between starting median salary and mid-career median salary by school type is explored. As starting median salary increases, so does mid-career median salary, suggesting that there is a strong positive correlation between these two variables. The points are colored by school type and it is interesting to note that Ivy Leagues and Engineering schools have the highest salaries and Liberal Arts schools and State schools have lower salaries. This indicates that schools that have higher starting median salaries are also likely to have higher mid-career median salaries, although a few Liberal Arts schools surpassed Ivy League and Engineering schools in mid-career median salaries despite having a lower starting median salary.</p>
+<p>In the second plot, the relationship between accceptance rate and cost of attendance was explored based on school type. To begin, I mutated acceptance rate from a numeric variable to a categorical variable by recoding all acceptance rates above the mean to “high”, indicating that these schools had a high acceptance rate, and recoded all acceptance rates below or equal to the mean to “low”, indicating that these schools had low acceptance rates. I also changed the number of tick marks on the y-axis to include more cost of attendance prices. After completing these actions, I noticed a few relationships in this plot. To begin with, no State schools were classified as having a low acceptance rate and no Ivy Leagues were classified as having a high acceptance rate, but the other two school types fell into both categories. It is also interesting that State schools appear to have the lowest cost of attendance while Engineering and Liberal Arts schools seem to have similar cost of attendance prices. Ivy Leagues appear to cost less than Engineering and Liberal Arts schools with low acceptance rates, which was surprising.</p>
+</div>
+<div id="dimensionality-reduction" class="section level1">
+<h1>Dimensionality Reduction</h1>
+<pre class="r"><code>library(&quot;tidyverse&quot;)
+install.packages(&quot;GGally&quot;)
+library(&quot;GGally&quot;)
+library(cluster)
+library(dplyr)
+library(ggplot2)
+
+# K-means Clustering
+
+fulldata2 &lt;- fulldata %&gt;% dplyr::select(-Institution, -School_Type, 
+    -Location, -`Mid-Career_10_Percentile_Salary`, -`Mid-Career_90_Percentile_Salary`)
+fulldata2</code></pre>
+<pre><code>## # A tibble: 50 x 7
+##    Starting_Median… `Mid-Career_Med… `Mid-Career_25_… `Mid-Career_75_… `AR%`
+##               &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt; &lt;dbl&gt;
+##  1            71800           122000            96000           180000    15
+##  2            58300           106000            85200           137000    23
+##  3            58100           106000            87900           142000    56
+##  4            60600           105000            81900           138000    44
+##  5            54100           110000            80600           156000    31
+##  6            52800           108000            76700           167000    28
+##  7            54500           107000            84900           162000    13
+##  8            53900           107000            79300           144000    31
+##  9            48100           107000            74600           146000    14
+## 10            50200           106000            65600           143000    40
+## # … with 40 more rows, and 2 more variables: `Price$` &lt;dbl&gt;, SAT_Range &lt;chr&gt;</code></pre>
+<pre class="r"><code>wss &lt;- vector()
+for (i in 1:10) {
+    temp &lt;- fulldata2 %&gt;% select(`AR%`, `Price$`) %&gt;% kmeans(i)
+    wss[i] &lt;- temp$tot.withinss
+}
+ggplot() + geom_point(aes(x = 1:10, y = wss)) + geom_path(aes(x = 1:10, 
+    y = wss)) + xlab(&quot;clusters&quot;) + scale_x_continuous(breaks = 1:10)</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cluster1 &lt;- fulldata2 %&gt;% dplyr::select(`AR%`, `Price$`)
+cluster2 &lt;- fulldata2 %&gt;% dplyr::select(Starting_Median_Salary, 
+    `Mid-Career_Median_Salary`)
+cluster3 &lt;- fulldata2 %&gt;% dplyr::select(`Price$`, `Mid-Career_Median_Salary`)
+
+kmeans1 &lt;- cluster1 %&gt;% scale %&gt;% kmeans(2)
+kmeans1</code></pre>
+<pre><code>## K-means clustering with 2 clusters of sizes 30, 20
+## 
+## Cluster means:
+##          AR%     Price$
+## 1 -0.1996324 -0.6437824
+## 2  0.2994486  0.9656736
+## 
+## Clustering vector:
+##  [1] 2 1 2 2 2 1 1 1 1 2 2 1 2 2 1 1 1 1 1 1 2 2 1 2 2 1 1 2 2 2 2 2 2 1 1 1 1 1
+## [39] 1 2 1 1 1 1 1 2 1 1 1 1
+## 
+## Within cluster sum of squares by cluster:
+## [1] 42.60972 21.31712
+##  (between_SS / total_SS =  34.8 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<pre class="r"><code>kmeans1$size</code></pre>
+<pre><code>## [1] 30 20</code></pre>
+<pre class="r"><code>kmeans1$center</code></pre>
+<pre><code>##          AR%     Price$
+## 1 -0.1996324 -0.6437824
+## 2  0.2994486  0.9656736</code></pre>
+<pre class="r"><code>kmeans1$cluster</code></pre>
+<pre><code>##  [1] 2 1 2 2 2 1 1 1 1 2 2 1 2 2 1 1 1 1 1 1 2 2 1 2 2 1 1 2 2 2 2 2 2 1 1 1 1 1
+## [39] 1 2 1 1 1 1 1 2 1 1 1 1</code></pre>
+<pre class="r"><code>kmeansclust &lt;- fulldata2 %&gt;% mutate(cluster = as.factor(kmeans1$cluster))
+kmeansclust %&gt;% ggplot(aes(`AR%`, `Price$`, color = cluster)) + 
+    geom_point()</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>wss2 &lt;- vector()
+for (i in 1:10) {
+    temp &lt;- fulldata2 %&gt;% select(Starting_Median_Salary, `Mid-Career_Median_Salary`) %&gt;% 
+        kmeans(i)
+    wss[i] &lt;- temp$tot.withinss
+}
+ggplot() + geom_point(aes(x = 1:10, y = wss)) + geom_path(aes(x = 1:10, 
+    y = wss)) + xlab(&quot;clusters&quot;) + scale_x_continuous(breaks = 1:10)</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>kmeans2 &lt;- cluster2 %&gt;% scale %&gt;% kmeans(2)
+kmeans2</code></pre>
+<pre><code>## K-means clustering with 2 clusters of sizes 19, 31
+## 
+## Cluster means:
+##   Starting_Median_Salary Mid-Career_Median_Salary
+## 1              1.0594375                 1.004519
+## 2             -0.6493326                -0.615673
+## 
+## Clustering vector:
+##  [1] 1 1 1 1 1 1 1 1 2 1 1 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1
+## [39] 1 1 1 1 2 2 2 2 2 2 2 2
+## 
+## Within cluster sum of squares by cluster:
+## [1] 18.03105 14.64982
+##  (between_SS / total_SS =  66.7 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<pre class="r"><code>kmeans2$size</code></pre>
+<pre><code>## [1] 19 31</code></pre>
+<pre class="r"><code>kmeans2$center</code></pre>
+<pre><code>##   Starting_Median_Salary Mid-Career_Median_Salary
+## 1              1.0594375                 1.004519
+## 2             -0.6493326                -0.615673</code></pre>
+<pre class="r"><code>kmeans2$cluster</code></pre>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 2 1 1 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1
+## [39] 1 1 1 1 2 2 2 2 2 2 2 2</code></pre>
+<pre class="r"><code>kmeansclust2 &lt;- fulldata2 %&gt;% mutate(cluster = as.factor(kmeans1$cluster))
+kmeansclust2 %&gt;% ggplot(aes(Starting_Median_Salary, `Mid-Career_Median_Salary`, 
+    color = cluster)) + geom_point()</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-5-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>wss3 &lt;- vector()
+for (i in 1:10) {
+    temp &lt;- fulldata2 %&gt;% select(`Price$`, `Mid-Career_Median_Salary`) %&gt;% 
+        kmeans(i)
+    wss[i] &lt;- temp$tot.withinss
+}
+ggplot() + geom_point(aes(x = 1:10, y = wss)) + geom_path(aes(x = 1:10, 
+    y = wss)) + xlab(&quot;clusters&quot;) + scale_x_continuous(breaks = 1:10)</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-5-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>kmeans3 &lt;- cluster3 %&gt;% scale %&gt;% kmeans(2)
+kmeans3</code></pre>
+<pre><code>## K-means clustering with 2 clusters of sizes 24, 26
+## 
+## Cluster means:
+##        Price$ Mid-Career_Median_Salary
+## 1  0.03499957                0.8775879
+## 2 -0.03230730               -0.8100811
+## 
+## Clustering vector:
+##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1
+## [39] 1 1 1 1 2 2 2 2 2 2 2 2
+## 
+## Within cluster sum of squares by cluster:
+## [1] 31.50508 30.89251
+##  (between_SS / total_SS =  36.3 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<pre class="r"><code>kmeans3$size</code></pre>
+<pre><code>## [1] 24 26</code></pre>
+<pre class="r"><code>kmeans3$center</code></pre>
+<pre><code>##        Price$ Mid-Career_Median_Salary
+## 1  0.03499957                0.8775879
+## 2 -0.03230730               -0.8100811</code></pre>
+<pre class="r"><code>kmeans3$cluster</code></pre>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1
+## [39] 1 1 1 1 2 2 2 2 2 2 2 2</code></pre>
+<pre class="r"><code>kmeansclust3 &lt;- fulldata2 %&gt;% mutate(cluster = as.factor(kmeans1$cluster))
+kmeansclust3 %&gt;% ggplot(aes(`Price$`, `Mid-Career_Median_Salary`, 
+    color = cluster)) + geom_point()</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-5-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># PAM
+pam_dat &lt;- fulldata2 %&gt;% select(`AR%`, `Price$`)
+sil_width &lt;- vector()
+for (i in 2:10) {
+    pam_fit &lt;- pam(pam_dat, k = i)
+    sil_width[i] &lt;- pam_fit$silinfo$avg.width
+}
+ggplot() + geom_line(aes(x = 1:10, y = sil_width)) + scale_x_continuous(name = &quot;k&quot;, 
+    breaks = 1:10)</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-5-7.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pam1 &lt;- fulldata2 %&gt;% pam(k = 2)
+pam1</code></pre>
+<pre><code>## Medoids:
+##      ID Starting_Median_Salary Mid-Career_Median_Salary
+## [1,] 41                  56200                   109000
+## [2,] 22                  45300                    86200
+##      Mid-Career_25_Percentile_Salary Mid-Career_75_Percentile_Salary AR% Price$
+## [1,]                           74400                          159000   8  25651
+## [2,]                           61000                          120000  43  27587
+##      SAT_Range
+## [1,]        NA
+## [2,]        NA
+## Clustering vector:
+##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1
+## [39] 1 1 1 1 2 2 2 2 2 2 2 2
+## Objective function:
+##    build     swap 
+## 24265.74 20807.94 
+## 
+## Available components:
+##  [1] &quot;medoids&quot;    &quot;id.med&quot;     &quot;clustering&quot; &quot;objective&quot;  &quot;isolation&quot; 
+##  [6] &quot;clusinfo&quot;   &quot;silinfo&quot;    &quot;diss&quot;       &quot;call&quot;       &quot;data&quot;</code></pre>
+<pre class="r"><code>fulldata %&gt;% mutate(cluster = as.factor(pam1$clustering)) %&gt;% 
+    ggpairs(columns = 2:6, aes(color = cluster))</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-5-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot(pam1, which = 2)</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-5-9.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pamclust &lt;- fulldata2 %&gt;% mutate(cluster = as.factor(pam1$clustering))
+pamclust %&gt;% ggplot(aes(`AR%`, `Price$`, color = cluster)) + 
+    geom_point()</code></pre>
+<p><img src="../project1_files/figure-html/unnamed-chunk-5-10.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pamclust %&gt;% group_by(cluster) %&gt;% summarize_if(is.numeric, mean, 
+    na.rm = T)</code></pre>
+<pre><code>## # A tibble: 2 x 7
+##   cluster Starting_Median… `Mid-Career_Med… `Mid-Career_25_… `Mid-Career_75_…
+##   &lt;fct&gt;              &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+## 1 1                 55292.          109812.           76796.          162154.
+## 2 2                 45012.           84996.           60408.          120625 
+## # … with 2 more variables: `AR%` &lt;dbl&gt;, `Price$` &lt;dbl&gt;</code></pre>
+<pre class="r"><code>fulldata[pam1$id.med, ]</code></pre>
+<pre><code>## # A tibble: 2 x 12
+##   Institution School_Type Starting_Median… `Mid-Career_Med… `Mid-Career_10_…
+##   &lt;chr&gt;       &lt;chr&gt;                  &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Brown Univ… Ivy League             56200           109000            55400
+## 2 St. Olaf C… Liberal Ar…            45300            86200            41300
+## # … with 7 more variables: `Mid-Career_25_Percentile_Salary` &lt;dbl&gt;,
+## #   `Mid-Career_75_Percentile_Salary` &lt;dbl&gt;,
+## #   `Mid-Career_90_Percentile_Salary` &lt;dbl&gt;, `AR%` &lt;dbl&gt;, Location &lt;chr&gt;,
+## #   `Price$` &lt;dbl&gt;, SAT_Range &lt;chr&gt;</code></pre>
+<pre class="r"><code>pam1$silinfo$avg.width</code></pre>
+<pre><code>## [1] 0.4731273</code></pre>
+<p>For this dataset, I performed k-means clustering on my numeric variables. To begin, I created new data where I removed all of the categorical variables and then I plotted WSS against the number of clusters to determine the best number of clusters to use. The WSS appeared to drop rapidly at 2, and so I decided that 2 clusters was best based on the plot. Next, I made my k-means clusters. The first k-means cluster included the variables of acceptance rate and cost of attendance. I scaled these variables and checked the k-means size, center, and cluster. After assigning each of the observations to the cluster whose center is closest and saving the cluster assignment as a column in the dataset, I graphed this first k-means and colored the data by final cluster assignment. I saw two distinct groups. The first cluster has an overall lower cost of attendance than the second cluster, however both clusters vary in acceptance rate. There does seem to be a general trend, however, that the lower the acceptance rate the higher cost of attendance. The size of the clusters was 30 and 20, with the lower cost of attendance cluster having 30 institutions and the higher cost of attendance cluster having 20 institutions.</p>
+<p>Next, I performed a second k-means clustering on the numeric variables of starting median salary and mid-career median salary. I first determined how many clusters were appropriate. I decided to use 2 clusters, with one cluster having 19 institutions and the other cluster having 32 institutions. I then created a ggplot to visualize the clusters. These clusters appeared to be entertwined. These clusters did not map nicely at all to these variables and there is no distinction between the two clusters since they have similar starting median salaries and mid-career median salaries. There is a positive correlation between the two variables, however, in both clusters.</p>
+<p>Finally, I performed a third k-means clustering on the numeric variables of cost of attendance and mid-career median salary. I determined how many clusters were appropriate for these numeric variables and once again decided on two clusters. I graphed these clusters via ggplot. The sizes of these clusters are 24 and 26. These clusters are separated once again based on cost of attendance. One cluster has a consistently higher cost of attendance while the other cluster has a consistently lower cost of attendance, however the distinction between mid-career median salary is not as clear. It is clear that the first and third k-means mapped much more nicely and showed the clusters much more distinctly than the second k-means plot. For the PAM method, I chose the number of clusters based on average silhouette width and erred on the side of fewer clusters. I chose 2 clusters to maximize the silhouette width. Again, I assigned observations to the cluster whose center is closest. I saved the cluster assignment and plotted it. I ran PAM and visualized it. Based on this, the mid-career 10th percentile salary and mid-career 25th percentile salary have the strongest correlation. Every correlation is positive. In terms of the average silhouette width, which is 0.43, the structure is considered weak and could be artifical. Next, I found the means for each variable and the final medoids, who were most representative of the cluster. Overall, I processed the data, chose the number of clusters, ran both k-means and PAM cluster analysis, and visualized the clusters. The PAM cluster did not map very nicely to the variables or show the clusters very distinctly. Likewise, the cluster solution was not very good, so I liked the k-means clustering plots better and was able to interpret them better.</p>
+<pre><code>## R version 3.4.4 (2018-03-15)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 18.04.4 LTS
+## 
+## Matrix products: default
+## BLAS: /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3
+## LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.2.20.so
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] methods   stats     graphics  grDevices utils     datasets  base     
+## 
+## other attached packages:
+##  [1] cluster_2.0.6    GGally_1.5.0     kableExtra_1.1.0 knitr_1.28      
+##  [5] forcats_0.4.0    stringr_1.4.0    dplyr_0.8.3      purrr_0.3.3     
+##  [9] readr_1.3.1      tidyr_1.0.0.9000 tibble_2.1.3     ggplot2_3.2.1   
+## [13] tidyverse_1.3.0 
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_1.0.2         lubridate_1.7.4    lattice_0.20-35    assertthat_0.2.1  
+##  [5] zeallot_0.1.0      digest_0.6.20      utf8_1.1.4         R6_2.4.0          
+##  [9] cellranger_1.1.0   plyr_1.8.4         backports_1.1.4    reprex_0.3.0      
+## [13] evaluate_0.14      httr_1.4.1         highr_0.8          blogdown_0.18     
+## [17] pillar_1.4.2       rlang_0.4.2        lazyeval_0.2.2     readxl_1.3.1      
+## [21] rstudioapi_0.10    rmarkdown_2.1      labeling_0.3       webshot_0.5.2     
+## [25] munsell_0.5.0      broom_0.5.2        compiler_3.4.4     modelr_0.1.5      
+## [29] xfun_0.13          pkgconfig_2.0.2    htmltools_0.3.6    tidyselect_0.2.5  
+## [33] bookdown_0.18      reshape_0.8.8      fansi_0.4.0        viridisLite_0.3.0 
+## [37] crayon_1.3.4       dbplyr_1.4.2       withr_2.1.2        grid_3.4.4        
+## [41] nlme_3.1-131       jsonlite_1.6       gtable_0.3.0       lifecycle_0.1.0   
+## [45] DBI_1.0.0          magrittr_1.5       formatR_1.7        scales_1.0.0      
+## [49] cli_1.1.0          stringi_1.4.3      reshape2_1.4.3     fs_1.3.1          
+## [53] xml2_1.2.2         generics_0.0.2     vctrs_0.2.1        RColorBrewer_1.1-2
+## [57] tools_3.4.4        glue_1.3.1         hms_0.5.3          yaml_2.2.0        
+## [61] colorspace_1.4-1   rvest_0.3.5        haven_2.2.0</code></pre>
+<pre><code>## [1] &quot;2020-05-08 00:58:50 CDT&quot;</code></pre>
+<pre><code>##                                        sysname 
+##                                        &quot;Linux&quot; 
+##                                        release 
+##                            &quot;4.15.0-99-generic&quot; 
+##                                        version 
+## &quot;#100-Ubuntu SMP Wed Apr 22 20:32:56 UTC 2020&quot; 
+##                                       nodename 
+##                   &quot;educcomp01.ccbb.utexas.edu&quot; 
+##                                        machine 
+##                                       &quot;x86_64&quot; 
+##                                          login 
+##                                      &quot;unknown&quot; 
+##                                           user 
+##                                       &quot;smo884&quot; 
+##                                 effective_user 
+##                                       &quot;smo884&quot;</code></pre>
+</div>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="../js/docs.min.js"></script>
+<script src="../js/main.js"></script>
+
+<script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>
