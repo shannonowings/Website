@@ -7,4 +7,12 @@ blogdown::serve_site()
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 git−−version
+getwd()
 
+cd ~/Desktop/PROJECT_DIRECTORY_NAME #if you haven't already
+cd ~/stor/home/smo884/Website
+git init #initialize local git respository
+git add . #add all files in repository to be uploaded
+git commit -m "first website commit"
+git remote add origin https://github.com/shannonowings/Website.git #re
+git push origin master
