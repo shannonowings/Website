@@ -642,3 +642,42 @@ After doing this, you may fix the identity used for this commit with:
 ]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git remote add origin https://github.com/USERNAME/WEBSITE_REPOSITORY.git #re
 fatal: remote origin already exists.
 ]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git push origin mastercd ~/stor/home/smo884/Website
+it commit -m "first website commit"
+git remote add origin https://github.com/shannonowings/Website.git #re
+git push origin masterfatal: remote part of refspec is not a valid name in /stor/home/smo884/stor/home/smo884/Website
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git init #initialize local git respository
+Reinitialized existing Git repository in /stor/home/smo884/Website/.git/
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git add . #add all files in repository to be uploaded
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git commit -m "first website commit"
+[master a1c4f09] first website commit
+ Committer: Shannon Owings <smo884@educcomp01.ccbb.utexas.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 4 files changed, 34 insertions(+), 7 deletions(-)
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git remote add origin https://github.com/shannonowings/Website.git #re
+fatal: remote origin already exists.
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git push origin master
+Username for 'https://github.com': shannonowings
+Password for 'https://shannonowings@github.com': 
+remote: Repository not found.
+fatal: repository 'https://github.com/USERNAME/WEBSITE_REPOSITORY.git/' not found
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ $ git remote set-url origin https://github.com/shannonowings/Website.git
+$: command not found
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git remote set-url origin https://github.com/shannonowings/Website.git
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ cd ~/stor/home/smo884/Website
+bash: cd: /stor/home/smo884/stor/home/smo884/Website: No such file or directory
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git init #initialize local git respository
+it commit -m "first website commit"
+git remote add origin https://github.com/shannonowings/Website.git #re
+git push origin masterReinitialized existing Git repository in /stor/home/smo884/Website/.git/
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git add . #add all files in repository to be uploaded
