@@ -756,3 +756,27 @@ remote: Resolving deltas:   0% (0/13)[Kremote: Resolving deltas:   7% (1/13)[
 To https://github.com/shannonowings/Website.git
    774abb9..ab96699  master -> master
 ]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git add .
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ 
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git commit -m "any message, but you must have a message"
+[master 5de02dc] any message, but you must have a message
+ Committer: Shannon Owings <smo884@educcomp01.ccbb.utexas.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 2 files changed, 46 insertions(+), 4 deletions(-)
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ 
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git push origin master
+Username for 'https://github.com': shannonmowings
+Password for 'https://shannonmowings@github.com': 
+remote: Invalid username or password.
+fatal: Authentication failed for 'https://github.com/shannonowings/Website.git/'
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ sha[K[K[Kgit add .
