@@ -18,3 +18,5 @@ git remote add origin https://github.com/shannonowings/Website.git #re
 git push origin master
 
 $ git remote set-url origin https://github.com/shannonowings/Website.git
+
+blogdown::new_post()
