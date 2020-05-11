@@ -1,0 +1,39 @@
+---
+title = "Interaction between Python and R Studio"
+description = "Basic Python commands and the interaction between Python and R Studio."
+date = May 10, 2020
+---
+
+
+
+<div id="interaction-between-python-and-r-studio" class="section level1">
+<h1>Interaction Between Python and R Studio</h1>
+<p>In this blog, I will demonstrate an example of how Python and R Studio interact. The benefits of integrating multiple languages are that the strengths of both Python and R studio are utilized and therefore more possibilities are available. To begin, I downloaded the reticulate package in order to allow interoperability between Python and R Studio chunks.</p>
+<p>All teenagers lie to their parents. They say one thing, but oftentimes, mean something very different. By communicating with Python and R studio, I will show what a teenager says to their parents (via R Studio) vs. what they actually mean (via Python).</p>
+<div class="figure">
+<img src="/blog/2020-05-10-python-basics_files/teenagers.png" />
+
+</div>
+<p>So, what do teenagers commonly tell their parents?</p>
+<pre class="r"><code>#R code chunk
+library(reticulate)
+
+room &lt;- &quot;I&#39;ll clean my room tomorrow.&quot;
+grades &lt;- &quot;I finished my homework.&quot;
+money &lt;- &quot;Can I have money for gas?&quot;</code></pre>
+<p>And oftentimes, what do they mean?</p>
+<pre class="python"><code>#Python code chunk
+room=&quot;I&#39;ll throw everything in the closet.&quot;
+grades=&quot;I&#39;ll just use my drop on this homework.&quot;
+money=&quot;I can&#39;t wait to buy new clothes.&quot;</code></pre>
+<p>Using Reticulate, we can see both sides of the story</p>
+<pre class="r"><code>#R code chunk
+library(reticulate)
+
+cat(c(room, py$room))
+## I&#39;ll clean my room tomorrow. I&#39;ll throw everything in the closet.
+cat(c(grades, py$grades))
+## I finished my homework. I&#39;ll just use my drop on this homework.
+cat(c(money, py$money))
+## Can I have money for gas? I can&#39;t wait to buy new clothes.</code></pre>
+</div>

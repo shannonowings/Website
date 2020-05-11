@@ -22,6 +22,7 @@ theme = "hugo-sustain"
 [params.social]
   Email         = "shannon.owings21@gmail.com"
   LinkedIn      = "https://www.linkedin.com/in/shannon-owings-069200141/"
+  Github        = "shannonowings"
 
 ## Main Menu
 [[menu.main]]
