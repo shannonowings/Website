@@ -45,7 +45,3 @@ cat(c(grades, py$grades))
 cat(c(money, py$money))
 ```
 
-
-
-
-
