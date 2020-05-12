@@ -44,7 +44,7 @@
         
         <li><a href="../projects/">PROJECTS</a></li>
         
-        <li><a href="../resume/">RESUME</a></li>
+        <li><a href="../resume1.pdf">RESUME</a></li>
         
       
       </ul>
@@ -61,7 +61,7 @@
         </div>
         <div class="blog-title">
           <h4>
-          January 1, 0001
+          March 16, 2020
             &nbsp;&nbsp;
             
           </h4>
@@ -791,34 +791,34 @@ cluster3 &lt;- fulldata2 %&gt;% dplyr::select(`Price$`, `Mid-Career_Median_Salar
 
 kmeans1 &lt;- cluster1 %&gt;% scale %&gt;% kmeans(2)
 kmeans1</code></pre>
-<pre><code>## K-means clustering with 2 clusters of sizes 30, 20
+<pre><code>## K-means clustering with 2 clusters of sizes 29, 21
 ## 
 ## Cluster means:
 ##          AR%     Price$
-## 1 -0.1996324 -0.6437824
-## 2  0.2994486  0.9656736
+## 1 -0.5983063 -0.3921425
+## 2  0.8262325  0.5415302
 ## 
 ## Clustering vector:
-##  [1] 2 1 2 2 2 1 1 1 1 2 2 1 2 2 1 1 1 1 1 1 2 2 1 2 2 1 1 2 2 2 2 2 2 1 1 1 1 1
-## [39] 1 2 1 1 1 1 1 2 1 1 1 1
+##  [1] 2 1 2 2 2 1 1 1 1 2 2 1 1 1 1 1 1 1 1 1 2 2 1 2 1 1 1 2 2 2 2 2 2 1 1 1 1 1
+## [39] 1 1 1 1 2 1 1 2 2 2 2 2
 ## 
 ## Within cluster sum of squares by cluster:
-## [1] 42.60972 21.31712
-##  (between_SS / total_SS =  34.8 %)
+## [1] 19.08932 43.57583
+##  (between_SS / total_SS =  36.1 %)
 ## 
 ## Available components:
 ## 
 ## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
 ## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
 <pre class="r"><code>kmeans1$size</code></pre>
-<pre><code>## [1] 30 20</code></pre>
+<pre><code>## [1] 29 21</code></pre>
 <pre class="r"><code>kmeans1$center</code></pre>
 <pre><code>##          AR%     Price$
-## 1 -0.1996324 -0.6437824
-## 2  0.2994486  0.9656736</code></pre>
+## 1 -0.5983063 -0.3921425
+## 2  0.8262325  0.5415302</code></pre>
 <pre class="r"><code>kmeans1$cluster</code></pre>
-<pre><code>##  [1] 2 1 2 2 2 1 1 1 1 2 2 1 2 2 1 1 1 1 1 1 2 2 1 2 2 1 1 2 2 2 2 2 2 1 1 1 1 1
-## [39] 1 2 1 1 1 1 1 2 1 1 1 1</code></pre>
+<pre><code>##  [1] 2 1 2 2 2 1 1 1 1 2 2 1 1 1 1 1 1 1 1 1 2 2 1 2 1 1 1 2 2 2 2 2 2 1 1 1 1 1
+## [39] 1 1 1 1 2 1 1 2 2 2 2 2</code></pre>
 <pre class="r"><code>kmeansclust &lt;- fulldata2 %&gt;% mutate(cluster = as.factor(kmeans1$cluster))
 kmeansclust %&gt;% ggplot(aes(`AR%`, `Price$`, color = cluster)) + 
     geom_point()</code></pre>
@@ -834,33 +834,33 @@ ggplot() + geom_point(aes(x = 1:10, y = wss)) + geom_path(aes(x = 1:10,
 <p><img src="../project1_files/figure-html/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>kmeans2 &lt;- cluster2 %&gt;% scale %&gt;% kmeans(2)
 kmeans2</code></pre>
-<pre><code>## K-means clustering with 2 clusters of sizes 19, 31
+<pre><code>## K-means clustering with 2 clusters of sizes 17, 33
 ## 
 ## Cluster means:
 ##   Starting_Median_Salary Mid-Career_Median_Salary
-## 1              1.0594375                 1.004519
-## 2             -0.6493326                -0.615673
+## 1              1.1744018                1.0746216
+## 2             -0.6049948               -0.5535929
 ## 
 ## Clustering vector:
-##  [1] 1 1 1 1 1 1 1 1 2 1 1 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1
+##  [1] 1 1 1 1 1 1 1 1 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1
 ## [39] 1 1 1 1 2 2 2 2 2 2 2 2
 ## 
 ## Within cluster sum of squares by cluster:
-## [1] 18.03105 14.64982
-##  (between_SS / total_SS =  66.7 %)
+## [1] 15.04526 17.68425
+##  (between_SS / total_SS =  66.6 %)
 ## 
 ## Available components:
 ## 
 ## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
 ## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
 <pre class="r"><code>kmeans2$size</code></pre>
-<pre><code>## [1] 19 31</code></pre>
+<pre><code>## [1] 17 33</code></pre>
 <pre class="r"><code>kmeans2$center</code></pre>
 <pre><code>##   Starting_Median_Salary Mid-Career_Median_Salary
-## 1              1.0594375                 1.004519
-## 2             -0.6493326                -0.615673</code></pre>
+## 1              1.1744018                1.0746216
+## 2             -0.6049948               -0.5535929</code></pre>
 <pre class="r"><code>kmeans2$cluster</code></pre>
-<pre><code>##  [1] 1 1 1 1 1 1 1 1 2 1 1 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1
 ## [39] 1 1 1 1 2 2 2 2 2 2 2 2</code></pre>
 <pre class="r"><code>kmeansclust2 &lt;- fulldata2 %&gt;% mutate(cluster = as.factor(kmeans1$cluster))
 kmeansclust2 %&gt;% ggplot(aes(Starting_Median_Salary, `Mid-Career_Median_Salary`, 
@@ -877,34 +877,34 @@ ggplot() + geom_point(aes(x = 1:10, y = wss)) + geom_path(aes(x = 1:10,
 <p><img src="../project1_files/figure-html/unnamed-chunk-5-5.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>kmeans3 &lt;- cluster3 %&gt;% scale %&gt;% kmeans(2)
 kmeans3</code></pre>
-<pre><code>## K-means clustering with 2 clusters of sizes 24, 26
+<pre><code>## K-means clustering with 2 clusters of sizes 32, 18
 ## 
 ## Cluster means:
-##        Price$ Mid-Career_Median_Salary
-## 1  0.03499957                0.8775879
-## 2 -0.03230730               -0.8100811
+##       Price$ Mid-Career_Median_Salary
+## 1 -0.6031041                0.1990902
+## 2  1.0721850               -0.3539381
 ## 
 ## Clustering vector:
-##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1
-## [39] 1 1 1 1 2 2 2 2 2 2 2 2
+##  [1] 2 1 1 2 2 1 1 1 1 1 2 1 2 2 1 1 1 1 1 1 2 2 1 2 2 1 1 2 2 2 2 2 2 2 1 1 1 1
+## [39] 1 2 1 1 1 1 1 1 1 1 1 1
 ## 
 ## Within cluster sum of squares by cluster:
-## [1] 31.50508 30.89251
-##  (between_SS / total_SS =  36.3 %)
+## [1] 39.51511 22.62965
+##  (between_SS / total_SS =  36.6 %)
 ## 
 ## Available components:
 ## 
 ## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
 ## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
 <pre class="r"><code>kmeans3$size</code></pre>
-<pre><code>## [1] 24 26</code></pre>
+<pre><code>## [1] 32 18</code></pre>
 <pre class="r"><code>kmeans3$center</code></pre>
-<pre><code>##        Price$ Mid-Career_Median_Salary
-## 1  0.03499957                0.8775879
-## 2 -0.03230730               -0.8100811</code></pre>
+<pre><code>##       Price$ Mid-Career_Median_Salary
+## 1 -0.6031041                0.1990902
+## 2  1.0721850               -0.3539381</code></pre>
 <pre class="r"><code>kmeans3$cluster</code></pre>
-<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1
-## [39] 1 1 1 1 2 2 2 2 2 2 2 2</code></pre>
+<pre><code>##  [1] 2 1 1 2 2 1 1 1 1 1 2 1 2 2 1 1 1 1 1 1 2 2 1 2 2 1 1 2 2 2 2 2 2 2 1 1 1 1
+## [39] 1 2 1 1 1 1 1 1 1 1 1 1</code></pre>
 <pre class="r"><code>kmeansclust3 &lt;- fulldata2 %&gt;% mutate(cluster = as.factor(kmeans1$cluster))
 kmeansclust3 %&gt;% ggplot(aes(`Price$`, `Mid-Career_Median_Salary`, 
     color = cluster)) + geom_point()</code></pre>
@@ -1015,7 +1015,7 @@ pamclust %&gt;% ggplot(aes(`AR%`, `Price$`, color = cluster)) +
 ## [53] xml2_1.2.2         generics_0.0.2     vctrs_0.2.1        RColorBrewer_1.1-2
 ## [57] tools_3.4.4        glue_1.3.1         hms_0.5.3          yaml_2.2.0        
 ## [61] colorspace_1.4-1   rvest_0.3.5        haven_2.2.0</code></pre>
-<pre><code>## [1] &quot;2020-05-08 00:58:50 CDT&quot;</code></pre>
+<pre><code>## [1] &quot;2020-05-11 14:24:38 CDT&quot;</code></pre>
 <pre><code>##                                        sysname 
 ##                                        &quot;Linux&quot; 
 ##                                        release 

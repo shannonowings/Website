@@ -44,7 +44,7 @@
         
         <li><a href="../projects/">PROJECTS</a></li>
         
-        <li><a href="../resume/">RESUME</a></li>
+        <li><a href="../resume1.pdf">RESUME</a></li>
         
       
       </ul>
@@ -61,7 +61,7 @@
         </div>
         <div class="blog-title">
           <h4>
-          January 1, 0001
+          May 1, 2020
             &nbsp;&nbsp;
             
           </h4>
@@ -222,7 +222,7 @@ for (i in 1:5000) {
 
 # two-tailed p-value
 mean(rand_wt &gt; 4.5656 | rand_wt &lt; -4.5656)</code></pre>
-<pre><code>## [1] 0.0018</code></pre>
+<pre><code>## [1] 0.0026</code></pre>
 <pre class="r"><code># Plot
 library(vegan)
 F_obs &lt;- 2.6878
@@ -357,13 +357,13 @@ coeftest(fit, vcov = vcovHC(fit))</code></pre>
 do.call(rbind, sample) %&gt;% as.data.frame %&gt;% summarize_all(sd, 
     na.rm = T)</code></pre>
 <pre><code>##   (Intercept) body.stylehardtop body.stylehatchback body.stylesedan
-## 1    1.157948          2.318568            1.229965        1.285847
+## 1    1.205268          2.271456            1.288406         1.32186
 ##   body.stylewagon   engine_c body.stylehardtop:engine_c
-## 1        1.336139 0.04858431                 0.06243584
+## 1        1.381453 0.04814277                 0.06129326
 ##   body.stylehatchback:engine_c body.stylesedan:engine_c
-## 1                   0.05519971                 1.568302
+## 1                   0.05493542                 1.386024
 ##   body.stylewagon:engine_c
-## 1                0.1345472</code></pre>
+## 1                0.1256562</code></pre>
 <p>I reran the same regression model with interaction as before, but this time I computed bootstrapped standard errors. Bootstrapped standard errors were used because my distribution was not normal. The bootstrap SEs decreased from the normal standard errors in the intercept and all of the body styles. The bootstrap SEs increased in the engine_c and all of the interaction categories. The bootstrap SEs increased in every category from the robust standard errors. All of the other bootstrap SEs decreased from the robust standard errors. Overall, it appears that the bootstrap errors worked as well as the normal standard errors but worse than the robust standard errors.</p>
 </div>
 <div id="logistic-regression" class="section level2">
