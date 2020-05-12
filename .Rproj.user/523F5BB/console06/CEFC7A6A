@@ -890,4 +890,36 @@ Total 15 (delta 8), reused 0 (delta 0)
 remote: Resolving deltas:   0% (0/8)[Kremote: Resolving deltas:  12% (1/8)[Kremote: Resolving deltas:  25% (2/8)[Kremote: Resolving deltas:  37% (3/8)[Kremote: Resolving deltas:  50% (4/8)[Kremote: Resolving deltas:  62% (5/8)[Kremote: Resolving deltas:  75% (6/8)[Kremote: Resolving deltas:  87% (7/8)[Kremote: Resolving deltas: 100% (8/8)[Kremote: Resolving deltas: 100% (8/8), completed with 8 local objects.[K
 To https://github.com/shannonowings/Website.git
    0203010..ab7af37  master -> master
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git add .
 ]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ 
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git commit -m "any message, but you must have a message"
+[master 7a2bb7e] any message, but you must have a message
+ Committer: Shannon Owings <smo884@educcomp01.ccbb.utexas.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 30 insertions(+)
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ 
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git push origin master
+Username for 'https://github.com': shannonoiw  wings
+Password for 'https://shannonowings@github.com': 
+Counting objects: 6, done.
+Delta compression using up to 16 threads.
+Compressing objects:  16% (1/6)   Compressing objects:  33% (2/6)   Compressing objects:  50% (3/6)   Compressing objects:  66% (4/6)   Compressing objects:  83% (5/6)   Compressing objects: 100% (6/6)   Compressing objects: 100% (6/6), done.
+Writing objects:  16% (1/6)   Writing objects:  33% (2/6)   Writing objects:  50% (3/6)   Writing objects:  66% (4/6)   Writing objects:  83% (5/6)   Writing objects: 100% (6/6)   Writing objects: 100% (6/6), 944 bytes | 944.00 KiB/s, done.
+Total 6 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas:   0% (0/2)[Kremote: Resolving deltas:  50% (1/2)[Kremote: Resolving deltas: 100% (2/2)[Kremote: Resolving deltas: 100% (2/2), completed with 2 local objects.[K
+To https://github.com/shannonowings/Website.git
+   ab7af37..7a2bb7e  master -> master
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ ser[K[K[Kblogdown::servei[Ksite()
+> ^C
+]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ ]0;/stor/home/smo884/Website]0;smo884@educcomp01: ~/Website[01;32msmo884@educcomp01[00m:[01;34m~/Website[00m$ git add .
